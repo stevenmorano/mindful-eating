@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap');
+
+:root {
+  /* Mindful Munchies Theme */
+  --mm-teal-start: #2EC4B6;
+  --mm-teal-end: #20948B;
+  /* Darker teal for gradient */
+  --mm-white: #FFFFFF;
+  --mm-text-dark: #1A535C;
+  /* Dark teal for text */
+  --mm-text-light: #FFFFFF;
+  --mm-accent-yellow: #FF9F1C;
+  /* Optional accent */
+
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.2);
+
+  /* Fonts */
+  --font-stack: 'Quicksand', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-stack);
+  background-color: #f0f0f0;
+  color: var(--mm-text-dark);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+#root {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-container {
+  width: 100%;
+  height: 100%;
+  max-width: 430px;
+  /* Teal Gradient Background */
+  background: linear-gradient(180deg, var(--mm-teal-start) 0%, var(--mm-teal-end) 100%);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  color: var(--mm-text-light);
+}
+
+/* Common Button Styles */
+.mm-btn {
+  background-color: var(--mm-white);
+  color: var(--mm-teal-end);
+  border: none;
+  border-radius: 30px;
+  /* Pill shape */
+  padding: 16px 32px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  font-family: var(--font-stack);
+}
+
+.mm-btn:active {
+  transform: scale(0.98);
+  box-shadow: var(--shadow-sm);
+}
+
+.mm-btn.secondary {
+  background-color: rgba(255, 255, 255, 0.2);
+  /* Glassy effect */
+  color: var(--mm-white);
+  border: 2px solid var(--mm-white);
+}
+
+/* Typography Overrides */
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-weight: 700;
+}
+
+p {
+  font-size: 18px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Card Style */
+.mm-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
