@@ -1,14 +1,32 @@
 import React from 'react';
 
-export default function HomeView({ onStart }) {
+export default function HomeView({ onStart, onViewHistory }) {
     return (
         <div className="view home-view" style={{ padding: '20px', height: '100%', display: 'flex', flexDirection: 'column' }}>
             {/* Header */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', paddingTop: '10px' }}>
-                <div style={{ background: 'rgba(255,255,255,0.3)', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <span style={{ fontSize: '20px', fontWeight: 'bold', color: 'white' }}>↑</span>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '10px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div style={{ background: 'rgba(255,255,255,0.3)', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <span style={{ fontSize: '20px', fontWeight: 'bold', color: 'white' }}>↑</span>
+                    </div>
+                    <h3 style={{ fontSize: '20px', color: 'white', margin: 0 }}>Mindful Munchies</h3>
                 </div>
-                <h3 style={{ fontSize: '20px', color: 'white' }}>Mindful Munchies</h3>
+                <button
+                    onClick={onViewHistory}
+                    style={{
+                        background: 'rgba(255,255,255,0.2)',
+                        border: '1px solid rgba(255,255,255,0.3)',
+                        borderRadius: '20px',
+                        color: 'white',
+                        padding: '6px 14px',
+                        fontSize: '14px',
+                        fontWeight: '600',
+                        cursor: 'pointer',
+                        backdropFilter: 'blur(5px)',
+                    }}
+                >
+                    History
+                </button>
             </div>
 
             <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
