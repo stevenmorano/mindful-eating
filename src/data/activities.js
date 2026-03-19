@@ -1,7 +1,7 @@
 export const activities = [
   // 🥤 Quick & Healthy “Pause” Actions
   { text: "Drink a full glass of cold water", category: "Quick & Healthy" },
-  { text: "Drink warm water or herbal tea", category: "Quick & Healthy" },
+  { text: "Make some tea", category: "Quick & Healthy" },
   { text: "Brush your teeth or use mouthwash", category: "Quick & Healthy" },
   { text: "Chew sugar-free gum", category: "Quick & Healthy" },
   { text: "Eat a cucumber or celery stick", category: "Quick & Healthy" },
@@ -13,7 +13,7 @@ export const activities = [
 
   // 🏃 Physical Movement / Light Exercise
   { text: "Do 20 jumping jacks", category: "Movement" },
-  { text: "Take a brisk 5-minute walk", category: "Movement" },
+  { text: "Take a brisk 10-minute walk", category: "Movement" },
   { text: "Do a 1-minute plank", category: "Movement" },
   { text: "Stretch your arms and back", category: "Movement" },
   { text: "Do 10 push-ups", category: "Movement" },
