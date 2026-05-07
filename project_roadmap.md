@@ -30,4 +30,13 @@ This document serves as the central tracking checklist for the "STOP! DON'T EAT!
 - [x] Activity Categorization: Context-aware snack suggestions vs distractions
 - [x] UI/UX: Post-Pause feedback loop & Progressive affirmations
 - [x] Functional: Emergency SOS mode & PWA Manifest for Homescreen
-- [ ] Final testing and deployment
+## Phase 5: Gamified Stats Dashboard (Completed ✅)
+- [x] Convert History view to a Bento Grid layout
+- [x] Build custom CSS Craving Heatmap (GitHub-style 28-day contribution graph)
+- [x] Implement dynamic metrics (Danger Hour, Estimated Savings, Top Distraction)
+- [x] Create Trophy Case and logic (Iron Will, Distraction Master, Night Guardian, SOS Survivor)
+- [x] Hide raw text log behind an accordion toggle
+
+## Phase 6: Finalization (Upcoming 🚧)
+- [ ] Accessibility review
+- [ ] Final production deployment
