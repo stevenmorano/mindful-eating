@@ -1,7 +1,47 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
-export default function TimerView({ duration = 600, onComplete, onCancel }) {
+const AFFIRMATIONS = [
+    "It takes 2 minutes for a craving peak to begin subsiding.",
+    "You are not your thoughts. Observe them and let them pass.",
+    "Boredom is just a lack of attention. Re-focus your mind.",
+    "Drink some water. Sometimes thirst disguises itself as hunger.",
+    "You're doing great. Just breathe.",
+    "This pause builds your self-regulation muscle."
+];
+
+export default function TimerView({ duration = 300, onComplete, onCancel }) {
     const [timeLeft, setTimeLeft] = useState(duration);
+    const [affirmation, setAffirmation] = useState(AFFIRMATIONS[0]);
+    const wakeLockRef = useRef(null);
+
+    useEffect(() => {
+        const requestWakeLock = async () => {
+            if ('wakeLock' in navigator) {
+                try {
+                    wakeLockRef.current = await navigator.wakeLock.request('screen');
+                } catch (err) {
+                    console.error(`Wake Lock error: ${err.name}, ${err.message}`);
+                }
+            }
+        };
+        requestWakeLock();
+
+        return () => {
+            if (wakeLockRef.current) {
+                wakeLockRef.current.release().then(() => {
+                    wakeLockRef.current = null;
+                });
+            }
+        };
+    }, []);
+
+    useEffect(() => {
+        const affirmationInterval = setInterval(() => {
+            setAffirmation(AFFIRMATIONS[Math.floor(Math.random() * AFFIRMATIONS.length)]);
+        }, 15000); // Change every 15 seconds
+
+        return () => clearInterval(affirmationInterval);
+    }, []);
 
     useEffect(() => {
         if (timeLeft <= 0) {
@@ -26,37 +66,51 @@ export default function TimerView({ duration = 600, onComplete, onCancel }) {
     const strokeDashoffset = 283 - (283 * progress) / 100;
 
     return (
-        <div className="view timer-view" style={{ padding: '40px 20px', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <h2 style={{ marginBottom: '40px', fontSize: '28px' }}>Take a Break</h2>
-
-            <div style={{ position: 'relative', width: '250px', height: '250px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '60px' }}>
-                {/* SVG Circle Progress */}
-                <svg width="250" height="250" viewBox="0 0 100 100" style={{ transform: 'rotate(-90deg)', position: 'absolute' }}>
-                    <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="6" />
+        <div className="view timer-view" style={{ alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ position: 'relative', width: '260px', height: '260px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '48px' }}>
+                <svg width="260" height="260" viewBox="0 0 100 100" style={{ transform: 'rotate(-90deg)', position: 'absolute' }}>
+                    <circle className="timer-circle-bg" cx="50" cy="50" r="46" fill="none" strokeWidth="2" />
                     <circle
-                        cx="50" cy="50" r="45"
+                        className="timer-circle-progress"
+                        cx="50" cy="50" r="46"
                         fill="none"
-                        stroke="white"
-                        strokeWidth="6"
-                        strokeDasharray="283"
+                        strokeWidth="4"
+                        strokeDasharray="289"
                         strokeDashoffset={strokeDashoffset}
-                        strokeLinecap="round"
                         style={{ transition: 'stroke-dashoffset 1s linear' }}
                     />
                 </svg>
 
-                <div style={{ fontSize: '60px', fontWeight: '200', fontVariantNumeric: 'tabular-nums' }}>
+                <div className="timer-text">
                     {formatTime(timeLeft)}
                 </div>
             </div>
 
-            <p style={{ textAlign: 'center', maxWidth: '80%', marginBottom: '40px' }}>
-                Focus on your activity. Allow the craving to pass.
+            <h2 style={{ marginBottom: '12px', fontSize: '20px' }}>Stay focused.</h2>
+            <p style={{ textAlign: 'center', maxWidth: '80%', marginBottom: '20px', fontStyle: 'italic', opacity: 0.8 }}>
+                "{affirmation}"
             </p>
+
+            {/* Clean Editorial Ad Placeholder */}
+            <div style={{
+                width: '100%',
+                maxWidth: '320px',
+                height: '80px',
+                background: 'var(--mm-bg-surface)',
+                border: '1px solid var(--mm-border)',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: '40px',
+                flexDirection: 'column'
+            }}>
+                <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--mm-text-muted)', marginBottom: '4px' }}>Sponsored Space</span>
+            </div>
 
             <div style={{ width: '100%' }}>
                 <button className="mm-btn secondary" onClick={onCancel} style={{ width: '100%' }}>
-                    Stop Timer
+                    Cancel Timer
                 </button>
             </div>
         </div>

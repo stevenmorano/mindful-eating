@@ -1,16 +1,16 @@
-export const activities = [
-  // 🥤 Quick & Healthy “Pause” Actions
+export const snacks = [
+  // 🥤 Quick & Healthy “Mindful Snacks”
   { text: "Drink a full glass of cold water", category: "Quick & Healthy" },
   { text: "Make some tea", category: "Quick & Healthy" },
-  { text: "Brush your teeth or use mouthwash", category: "Quick & Healthy" },
-  { text: "Chew sugar-free gum", category: "Quick & Healthy" },
   { text: "Eat a cucumber or celery stick", category: "Quick & Healthy" },
   { text: "Eat a small apple or orange", category: "Quick & Healthy" },
   { text: "Eat a few baby carrots", category: "Quick & Healthy" },
   { text: "Eat a hard-boiled egg", category: "Quick & Healthy" },
   { text: "Eat a handful of almonds or walnuts", category: "Quick & Healthy" },
   { text: "Eat some Greek yogurt (plain)", category: "Quick & Healthy" },
+];
 
+export const defaultActivities = [
   // 🏃 Physical Movement / Light Exercise
   { text: "Do 20 jumping jacks", category: "Movement" },
   { text: "Take a brisk 10-minute walk", category: "Movement" },
@@ -119,3 +119,19 @@ export const activities = [
   { text: "Take a short drive or walk outside", category: "Environment" },
   { text: "Do a 2-minute cold water hand rinse or face splash", category: "Environment" },
 ];
+
+export const getActivities = () => {
+  const custom = JSON.parse(localStorage.getItem('mm-custom-activities') || '[]');
+  return [...defaultActivities, ...custom];
+};
+
+export const addCustomActivity = (text, category = "Custom") => {
+  const custom = JSON.parse(localStorage.getItem('mm-custom-activities') || '[]');
+  custom.push({ text, category });
+  localStorage.setItem('mm-custom-activities', JSON.stringify(custom));
+};
+
+export const getRandomSnack = () => {
+  const randomIndex = Math.floor(Math.random() * snacks.length);
+  return snacks[randomIndex];
+};

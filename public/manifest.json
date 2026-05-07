@@ -1,0 +1,16 @@
+{
+  "name": "STOP! DON'T EAT!",
+  "short_name": "STOP!",
+  "description": "A mindful eating delay and distract app for ADHD and boredom eating.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2c7a7b",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

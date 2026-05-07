@@ -1,67 +1,56 @@
 import React from 'react';
 
-export default function HomeView({ onStart, onViewHistory }) {
+export default function HomeView({ onStart, onEmergency, onViewHistory, isDark, toggleTheme, isDevMode, toggleDevMode }) {
     return (
-        <div className="view home-view" style={{ padding: '20px', height: '100%', display: 'flex', flexDirection: 'column' }}>
-            {/* Header */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '10px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <div style={{ background: 'rgba(255,255,255,0.3)', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <span style={{ fontSize: '20px', fontWeight: 'bold', color: 'white' }}>↑</span>
-                    </div>
-                    <h3 style={{ fontSize: '20px', color: 'white', margin: 0 }}>Mindful Munchies</h3>
+        <div className="view home-view">
+            <div className="view-header">
+                <h3 className="logo-text" style={{ textTransform: 'uppercase', fontWeight: '800', letterSpacing: '-0.5px', color: 'var(--mm-error, #ef4444)' }}>STOP! DON'T EAT!</h3>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <label style={{ fontSize: '10px', color: 'var(--mm-text-muted)', display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer', marginRight: '8px' }}>
+                        <input type="checkbox" checked={isDevMode} onChange={toggleDevMode} />
+                        DEV MODE
+                    </label>
+                    <button className="icon-btn" onClick={toggleTheme} aria-label="Toggle Theme">
+                        {isDark ? (
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                        ) : (
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+                        )}
+                    </button>
+                    <button className="header-btn" onClick={onViewHistory}>
+                        History
+                    </button>
                 </div>
-                <button
-                    onClick={onViewHistory}
-                    style={{
-                        background: 'rgba(255,255,255,0.2)',
-                        border: '1px solid rgba(255,255,255,0.3)',
-                        borderRadius: '20px',
-                        color: 'white',
-                        padding: '6px 14px',
-                        fontSize: '14px',
-                        fontWeight: '600',
-                        cursor: 'pointer',
-                        backdropFilter: 'blur(5px)',
-                    }}
-                >
-                    History
-                </button>
             </div>
 
             <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-                <h1 style={{ fontSize: '36px', marginBottom: '10px' }}>Feeling a Craving?</h1>
-                <p style={{ fontSize: '18px', opacity: 0.9, marginBottom: '50px' }}>
-                    Press the button before you grab a snack.
+                <h1 style={{ marginBottom: '16px' }}>Experiencing a craving?</h1>
+                <p style={{ marginBottom: '60px', maxWidth: '80%' }}>
+                    Take a five minute pause before deciding to proceed.
                 </p>
 
-                <button
-                    onClick={onStart}
-                    style={{
-                        width: '200px',
-                        height: '200px',
-                        borderRadius: '50%',
-                        background: 'white',
-                        border: 'none',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
-                        cursor: 'pointer',
-                        transition: 'transform 0.1s'
-                    }}
-                    onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
-                    onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                    onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                >
-                    {/* Simple Fork/Knife Icon */}
-                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--mm-teal-end)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: '10px' }}>
-                        <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" />
-                        <path d="M7 2v20" />
-                        <path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" />
+                <button className="main-action-btn" onClick={onStart}>
+                    <svg viewBox="0 0 24 24" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
                     </svg>
-                    <span style={{ color: 'var(--mm-teal-end)', fontSize: '20px', fontWeight: '700' }}>I'm Hungry</span>
+                    <span style={{ fontSize: '20px', fontWeight: '700' }}>DON'T EAT</span>
+                </button>
+
+                <button 
+                    onClick={onEmergency}
+                    style={{ 
+                        marginTop: '30px', 
+                        background: 'transparent', 
+                        border: '1px solid var(--mm-error, #ef4444)', 
+                        color: 'var(--mm-error, #ef4444)', 
+                        padding: '10px 20px', 
+                        borderRadius: '24px',
+                        cursor: 'pointer',
+                        fontWeight: '600'
+                    }}
+                >
+                    🚨 SOS / Intense Craving
                 </button>
             </div>
         </div>

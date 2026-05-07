@@ -1,36 +1,41 @@
 import React from 'react';
 
-export default function ActivityView({ activity, onStartTimer, onNewActivity, onCancel }) {
+export default function ActivityView({ activity, onStartTimer, onNewActivity, onCancel, isDark, toggleTheme }) {
     if (!activity) return null;
 
     return (
-        <div className="view activity-view" style={{ padding: '20px', height: '100%', display: 'flex', flexDirection: 'column' }}>
-            {/* Header */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '10px', marginBottom: '40px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <div style={{ background: 'rgba(255,255,255,0.3)', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <span style={{ fontSize: '20px', fontWeight: 'bold', color: 'white' }}>↑</span>
-                    </div>
-                    <h3 style={{ fontSize: '20px', color: 'white' }}>Mindful Munchies</h3>
+        <div className="view activity-view">
+            <div className="view-header">
+                <h3 className="logo-text" style={{ textTransform: 'uppercase', fontWeight: '800', letterSpacing: '-0.5px', color: 'var(--mm-error, #ef4444)' }}>STOP! DON'T EAT!</h3>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <button className="icon-btn" onClick={toggleTheme} aria-label="Toggle Theme">
+                        {isDark ? (
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                        ) : (
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+                        )}
+                    </button>
+                    <button onClick={onCancel} className="header-btn" style={{ fontSize: '20px' }}>
+                        ✕
+                    </button>
                 </div>
-                <button onClick={onCancel} style={{ background: 'none', border: 'none', color: 'white', fontSize: '24px', cursor: 'pointer' }}>
-                    ↻
-                </button>
             </div>
 
-            <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <h2 style={{ fontSize: '24px', marginBottom: '20px', opacity: 0.9 }}>Here's an idea...</h2>
+            <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <p style={{ marginBottom: '24px', textTransform: 'uppercase', letterSpacing: '1px', fontSize: '12px', fontWeight: '600' }}>
+                    Suggested Activity
+                </p>
 
-                <div className="mm-card" style={{ width: '100%', marginBottom: '40px', minHeight: '150px', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-                    <h1 style={{ fontSize: '28px', lineHeight: '1.3' }}>{activity.text}</h1>
+                <div className="mm-card" style={{ width: '100%', marginBottom: '40px', minHeight: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+                    <h2 style={{ fontSize: '24px', lineHeight: '1.4', fontWeight: '500' }}>{activity.text}</h2>
                 </div>
 
-                <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                    <button className="mm-btn secondary" onClick={onNewActivity}>
-                        Another Idea
+                <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    <button className="mm-btn primary-solid" onClick={onStartTimer}>
+                        Begin 5-Minute Timer
                     </button>
-                    <button className="mm-btn" onClick={onStartTimer}>
-                        Let's Do It!
+                    <button className="mm-btn secondary" onClick={onNewActivity}>
+                        Generate another idea
                     </button>
                 </div>
             </div>
