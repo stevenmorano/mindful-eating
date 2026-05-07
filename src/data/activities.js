@@ -1,7 +1,9 @@
 export const snacks = [
   // 🥤 Quick & Healthy “Mindful Snacks”
   { text: "Drink a full glass of cold water", category: "Quick & Healthy" },
+  { text: "Drink a can of seltzer", category: "Quick & Healthy" },
   { text: "Make some tea", category: "Quick & Healthy" },
+  { text: "Make some coffee", category: "Quick & Healthy" },
   { text: "Eat a cucumber or celery stick", category: "Quick & Healthy" },
   { text: "Eat a small apple or orange", category: "Quick & Healthy" },
   { text: "Eat a few baby carrots", category: "Quick & Healthy" },
@@ -17,7 +19,7 @@ export const defaultActivities = [
   { text: "Do a 1-minute plank", category: "Movement" },
   { text: "Stretch your arms and back", category: "Movement" },
   { text: "Do 10 push-ups", category: "Movement" },
-  { text: "Dance to a favorite song", category: "Movement" },
+  { text: "5 minute dance party to your favorite song", category: "Movement" },
   { text: "Do 15 squats", category: "Movement" },
   { text: "Do 10 lunges per leg", category: "Movement" },
   { text: "Try a quick yoga flow", category: "Movement" },
@@ -37,7 +39,7 @@ export const defaultActivities = [
 
   // 🧼 Productive Tasks
   { text: "Clean the kitchen counter", category: "Productive" },
-  { text: "Wipe down your desk", category: "Productive" },
+  { text: "Organize your desk", category: "Productive" },
   { text: "Take out the trash", category: "Productive" },
   { text: "Tidy up one drawer", category: "Productive" },
   { text: "Fold laundry", category: "Productive" },
@@ -61,7 +63,6 @@ export const defaultActivities = [
 
   // ✍️ Creative Distractions
   { text: "Draw or doodle something random", category: "Creative" },
-  { text: "Color in an adult coloring book", category: "Creative" },
   { text: "Write a poem or short story", category: "Creative" },
   { text: "Record a voice memo to your future self", category: "Creative" },
   { text: "Brainstorm business or life ideas", category: "Creative" },
@@ -74,6 +75,7 @@ export const defaultActivities = [
   // 💬 Social or Connection Actions
   { text: "Text a friend", category: "Social" },
   { text: "Call someone you miss", category: "Social" },
+  { text: "Call a family members", category: "Social" },
   { text: "Send a funny meme to someone", category: "Social" },
   { text: "Hop on a quick Discord or chat", category: "Social" },
   { text: "Check in on a friend or family member", category: "Social" },
@@ -96,12 +98,14 @@ export const defaultActivities = [
   { text: "Check something small off your task list", category: "Self-Improvement" },
 
   // 🧼 Personal Care
-  { text: "Wash your hands with nice soap", category: "Personal Care" },
+  { text: "Wash your hands", category: "Personal Care" },
+  { text: "Brush your teeth", category: "Personal Care" },
+  { text: "Floss your teeth", category: "Personal Care" },
   { text: "Take a quick shower", category: "Personal Care" },
   { text: "Wash your face", category: "Personal Care" },
   { text: "Put on lotion or moisturizer", category: "Personal Care" },
   { text: "Change into comfortable clothes", category: "Personal Care" },
-  { text: "Fix your hair or beard", category: "Personal Care" },
+  { text: "Fix your hair", category: "Personal Care" },
   { text: "Do a skincare step (mask, toner, etc.)", category: "Personal Care" },
   { text: "Do a few minutes of stretching on the floor", category: "Personal Care" },
   { text: "Clip or file your nails", category: "Personal Care" },
