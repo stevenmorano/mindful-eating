@@ -14,14 +14,15 @@ STOP! DON'T EAT! is a mobile-first web application designed to help users manage
 ## 4. Current State (Production-Ready Candidate)
 *   **Tech Stack:** React, Vite
 *   **Flow:**
-    1.  **Trigger:** User feels a craving and chooses a pause type from the home screen. "Surprise Me" keeps the fully random path, while category tiles narrow the activity pool.
-    2.  **Suggestion:** App selects a quick 5-minute activity from either the full pool or the selected category (e.g., Movement, Creative, Productive).
-    3.  **Delay:** A 5-minute visual timer runs (with Dev Mode available to shorten this to 5 seconds for testing).
-    4.  **Decision:** Once the timer ends, the user is asked: "Are you still hungry?"
-    5.  **Extension:** If they are still hungry after the first pause, they must complete one more 5-minute task before being offered a "Mindful Snack". The second pause respects the originally selected category when applicable.
-    6.  **Mindful Snack Unlock:** If they are still hungry after the second completed pause, the app offers a random healthy snack suggestion.
-    7.  **Gamification & Logging:** Decisions are saved to local storage. A gamified Dashboard features a Day Streak (with reduced-motion-aware confetti celebrations), a 28-day Craving Heatmap, actionable metrics (Money Saved, Danger Hour), and unlockable badges in a Trophy Case.
-    8.  **Emergency Breathing:** A dedicated emergency action bypasses category selection and immediately starts guided box breathing for intense cravings.
+    1.  **Trigger:** User feels a craving and presses the large "DON'T EAT" action on the home screen.
+    2.  **Suggestion:** App selects a quick 5-minute activity from the full activity pool.
+    3.  **Category Steering:** On the suggestion screen, the user can optionally tap compact category chips (e.g., Movement, Creative, Productive) to swap the suggestion into that category.
+    4.  **Delay:** A 5-minute visual timer runs (with Dev Mode available to shorten this to 5 seconds for testing).
+    5.  **Decision:** Once the timer ends, the user is asked: "Are you still hungry?"
+    6.  **Extension:** If they are still hungry after the first pause, they must complete one more 5-minute task before being offered a "Mindful Snack". The second pause respects the selected category when applicable.
+    7.  **Mindful Snack Unlock:** If they are still hungry after the second completed pause, the app offers a random healthy snack suggestion.
+    8.  **Gamification & Logging:** Decisions are saved to local storage. A gamified Dashboard features a Day Streak (with reduced-motion-aware confetti celebrations), a 28-day Craving Heatmap, actionable metrics (Money Saved, Danger Hour), and unlockable badges in a Trophy Case.
+    9.  **Emergency Breathing:** A dedicated emergency action bypasses activity selection and immediately starts guided box breathing for intense cravings.
 
 ## 5. Quality & Accessibility Requirements
 *   The app must pass `npm run lint` and `npm run build` before release.
@@ -31,13 +32,13 @@ STOP! DON'T EAT! is a mobile-first web application designed to help users manage
 *   Malformed local storage data must not crash the app.
 *   PWA metadata and install icon must use STOP! DON'T EAT! branding, not starter Vite assets.
 *   iPhone standalone/web-app mode must keep top controls clear of the status bar and avoid white background leakage in dark mode.
-*   Category selection must remain optional; users must always have a fully random "Surprise Me" path.
+*   Category selection must remain optional; the large home action must preserve the fully random path.
 
 ## 6. MVP Decisions Log
 *   **Target Audience:** Focus primarily on boredom eaters (WFH, ADHD) who need a quick dopamine distraction.
 *   **Timer Duration:** Default the timer to 5 minutes instead of 10 minutes, as shorter bursts are more achievable and often sufficient to break the cycle.
 *   **Monetization & Distraction:** The app will be monetized via ads. During the 5-minute countdown timer, ads will play on the screen while the user performs the suggested external activity (from the curated list). This ensures the user is distracted by the activity while the app still gets credit for ad impressions.
-*   **Category Selection:** Make category choice a first-class home-screen path with icon tiles, while preserving Surprise Me as the random default.
+*   **Category Selection:** Keep the home screen focused on the large random action, then expose category steering as compact chips on the suggestion screen.
 *   **Emergency Naming:** Rename the former SOS path to Emergency Breathing so users understand it starts a guided 5-minute box-breathing reset.
 
 ## 7. Verified Smoke-Test Coverage

@@ -1,12 +1,25 @@
 import React from 'react';
 
-export default function ActivityView({ activity, categoryMeta, isSurprise, onStartTimer, onNewActivity, onCancel, isDark, toggleTheme }) {
+export default function ActivityView({
+    activity,
+    categories,
+    categoryMeta,
+    selectedCategory,
+    onSelectCategory,
+    onStartTimer,
+    onNewActivity,
+    onCancel,
+    isDark,
+    toggleTheme
+}) {
     if (!activity) return null;
+
+    const activeLabel = selectedCategory ? categoryMeta?.label || activity.category : 'Any';
 
     return (
         <div className="view activity-view">
             <div className="view-header">
-                <h3 className="logo-text" style={{ textTransform: 'uppercase', fontWeight: '800', letterSpacing: '-0.5px', color: 'var(--mm-error, #ef4444)' }}>STOP! DON'T EAT!</h3>
+                <h3 className="logo-text brand-mark">STOP! DON'T EAT!</h3>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <button
                         type="button"
@@ -27,25 +40,43 @@ export default function ActivityView({ activity, categoryMeta, isSurprise, onSta
                 </div>
             </div>
 
-            <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                <p style={{ marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '1px', fontSize: '12px', fontWeight: '600' }}>
-                    Suggested Activity
-                </p>
-                <span className="activity-category-pill">
-                    {isSurprise ? 'Surprise Me' : categoryMeta?.label || activity.category}
-                </span>
+            <div className="activity-content">
+                <p className="activity-kicker">Suggested Activity</p>
+                <span className="activity-category-pill">{activeLabel}</span>
 
-                <div className="mm-card" style={{ width: '100%', marginTop: '24px', marginBottom: '40px', minHeight: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-                    <h2 style={{ fontSize: '24px', lineHeight: '1.4', fontWeight: '500' }}>{activity.text}</h2>
+                <div className="mm-card activity-card">
+                    <h2>{activity.text}</h2>
                 </div>
 
-                <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div className="activity-actions">
                     <button type="button" className="mm-btn primary-solid" onClick={onStartTimer}>
                         Begin 5-Minute Timer
                     </button>
                     <button type="button" className="mm-btn secondary" onClick={onNewActivity}>
-                        {isSurprise ? 'Generate another idea' : `Another ${categoryMeta?.label || activity.category} idea`}
+                        Generate another idea
                     </button>
+                </div>
+
+                <div className="category-chip-panel" aria-label="Activity category filter">
+                    <button
+                        type="button"
+                        className={`category-chip ${!selectedCategory ? 'active' : ''}`}
+                        onClick={() => onSelectCategory(null)}
+                        aria-pressed={!selectedCategory}
+                    >
+                        Any
+                    </button>
+                    {categories.map((item) => (
+                        <button
+                            type="button"
+                            className={`category-chip ${selectedCategory === item.category ? 'active' : ''}`}
+                            key={item.category}
+                            onClick={() => onSelectCategory(item.category)}
+                            aria-pressed={selectedCategory === item.category}
+                        >
+                            {item.label}
+                        </button>
+                    ))}
                 </div>
             </div>
         </div>

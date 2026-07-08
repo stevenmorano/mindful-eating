@@ -77,6 +77,11 @@ function App() {
     setCurrentActivity(getRandomActivity(selectedCategory));
   };
 
+  const handleSelectCategory = (category) => {
+    setSelectedCategory(category);
+    setCurrentActivity(getRandomActivity(category));
+  };
+
   const handleStartTimer = () => {
     const session = createSession({
       activityTitle: currentActivity.text,
@@ -150,7 +155,6 @@ function App() {
             onStart={handleStart} 
             onEmergency={handleEmergencyStart}
             onViewHistory={handleViewHistory} 
-            categories={getActivityCategories()}
             isDark={isDark} 
             toggleTheme={toggleTheme} 
             isDevMode={isDevMode}
@@ -161,8 +165,10 @@ function App() {
       {view === 'activity' && (
         <ActivityView
           activity={currentActivity}
+          categories={getActivityCategories()}
           categoryMeta={categoryMeta[currentActivity?.category]}
-          isSurprise={!selectedCategory}
+          selectedCategory={selectedCategory}
+          onSelectCategory={handleSelectCategory}
           onStartTimer={handleStartTimer}
           onNewActivity={handleNewActivity}
           onCancel={handleReset}

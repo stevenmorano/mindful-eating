@@ -50,14 +50,14 @@ This document serves as the central tracking checklist for the "STOP! DON'T EAT!
 - [x] Run browser smoke test for Dev Mode, two-pause flow, dashboard, theme toggle, and SOS
 - [x] Improve iOS standalone safe-area handling for installed web-app usage
 
-## Phase 7: Category-First Pause Selection (Completed)
-- [x] Add icon-based home screen category picker
-- [x] Preserve fully random activity selection through "Surprise Me"
-- [x] Filter initial activity suggestions by selected category
+## Phase 7: Category-Aware Pause Selection (Completed)
+- [x] Preserve the large home screen random action
+- [x] Add compact suggestion-screen category chips
+- [x] Let users swap the current suggestion into a selected category
 - [x] Keep "generate another idea" inside the selected category
 - [x] Rename SOS action to Emergency Breathing with clearer helper copy
 - [x] Store `activityCategory` on new session records for future stats
-- [x] Add activity category metadata for labels, counts, and icons
+- [x] Add activity category metadata for labels and filtering
 
 ## Phase 8: Finalization (Upcoming)
 - [ ] Final production deployment

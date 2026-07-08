@@ -3,14 +3,15 @@
 A mobile-first, web-based "Delay & Distract" application designed to help users combat boredom eating, emotional eating, and dopamine-seeking snacking (especially useful for individuals working from home or managing ADHD).
 
 ## The Core Concept
-Snacking often happens automatically as a response to under-stimulation, rather than actual physical hunger. **STOP! DON'T EAT!** introduces a small point of friction. When you feel an urge to snack, you choose a 5-minute pause category or let the app pick a completely random activity.
+Snacking often happens automatically as a response to under-stimulation, rather than actual physical hunger. **STOP! DON'T EAT!** introduces a small point of friction. When you feel an urge to snack, the main action gives you a random 5-minute activity, with optional category chips available on the suggestion screen.
 
 If you spend just 5 minutes engaged in a different activity, the immediate urge to snack usually dissipates because the brain has found another source of stimulation.
 
 ## Key Features
-*   **Category-First Pause Picker:** The home screen offers icon-based pause categories while keeping a prominent "Surprise Me" option for fully random activity selection.
+*   **Fast Random Start:** The home screen keeps a large "DON'T EAT" action that immediately starts a fully random pause suggestion.
 *   **Dopamine Distractions:** Suggests 5-minute activities from curated categories (Movement, Mind Engagement, Productive, Mindfulness, Creative, Social, Self-Improvement, Personal Care, Environment).
-*   **Category-Aware Re-rolls:** When a user starts from a category, "another idea" stays inside that category. Surprise Me continues to pull from the full activity pool.
+*   **Suggestion-Screen Category Chips:** Users can switch the suggestion to a specific category after starting, without cluttering the home screen.
+*   **Category-Aware Re-rolls:** When a user selects a category chip, "another idea" stays inside that category. Any/Random continues to pull from the full activity pool.
 *   **Enforced Second-Pause Loop:** If the user is still hungry after the first timer, the app requires one more 5-minute pause before a mindful snack can be unlocked.
 *   **Emergency Breathing:** A clearer emergency action for intense cravings that immediately launches a 5-minute guided Box Breathing exercise.
 *   **Gamified Stats Dashboard:**
