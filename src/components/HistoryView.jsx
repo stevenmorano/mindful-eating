@@ -194,7 +194,7 @@ export default function HistoryView({ onClose, isDark, toggleTheme }) {
                 </div>
             </div>
 
-            <div style={{ flexGrow: 1, overflowY: 'auto', paddingBottom: 0, WebkitOverflowScrolling: 'touch' }}>
+            <div style={{ flex: '1 1 auto', minHeight: 0, overflowY: 'auto', paddingBottom: 0, WebkitOverflowScrolling: 'touch' }}>
                 {totalSessions === 0 ? (
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '80%', textAlign: 'center' }}>
                         <p style={{ marginBottom: '32px', fontSize: '16px', maxWidth: '80%' }}>Your dashboard will populate here once you complete your first pause.</p>
