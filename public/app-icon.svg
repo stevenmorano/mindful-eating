@@ -1,11 +1,34 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
   <title id="title">STOP! DON'T EAT! app icon</title>
-  <desc id="desc">A red stop sign with the word STOP above a small pause mark.</desc>
-  <rect width="512" height="512" rx="112" fill="#fbfbf9"/>
-  <path d="M190 64h132l94 94v132l-94 94H190l-94-94V158z" fill="#ef4444"/>
-  <path d="M205 88h102l73 73v102l-73 73H205l-73-73V161z" fill="none" stroke="#fbfbf9" stroke-width="18"/>
-  <text x="256" y="246" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="82" font-weight="900" letter-spacing="2" fill="#fbfbf9">STOP</text>
-  <rect x="214" y="280" width="32" height="76" rx="8" fill="#fbfbf9"/>
-  <rect x="266" y="280" width="32" height="76" rx="8" fill="#fbfbf9"/>
-  <path d="M161 420h190" stroke="#4a6c6f" stroke-width="20" stroke-linecap="round"/>
+  <desc id="desc">A dark rounded app icon with a red stop badge, pause mark, and teal mindful pause ring.</desc>
+  <defs>
+    <linearGradient id="bg" x1="92" y1="48" x2="430" y2="468" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#202526"/>
+      <stop offset="1" stop-color="#101314"/>
+    </linearGradient>
+    <linearGradient id="badge" x1="150" y1="98" x2="362" y2="354" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ff5a66"/>
+      <stop offset="1" stop-color="#d9323d"/>
+    </linearGradient>
+    <filter id="shadow" x="60" y="60" width="392" height="392" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#000000" flood-opacity="0.32"/>
+    </filter>
+  </defs>
+
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <path d="M92 384c66-32 112-18 162-2 50 15 104 30 174-12" fill="none" stroke="#77a5a8" stroke-opacity="0.2" stroke-width="26" stroke-linecap="round"/>
+  <path d="M76 142c42-28 90-42 144-42 86 0 161 37 208 95" fill="none" stroke="#77a5a8" stroke-opacity="0.18" stroke-width="18" stroke-linecap="round"/>
+
+  <g filter="url(#shadow)">
+    <path d="M193 88h126l89 89v126l-89 89H193l-89-89V177z" fill="url(#badge)"/>
+    <path d="M205 116h102l73 73v102l-73 73H205l-73-73V189z" fill="none" stroke="#fbfbf9" stroke-opacity="0.9" stroke-width="15"/>
+  </g>
+
+  <path d="M207 202c0-27 22-49 49-49s49 22 49 49-22 49-49 49-49-22-49-49z" fill="#fbfbf9" fill-opacity="0.12"/>
+  <path d="M256 174v35l25 15" fill="none" stroke="#fbfbf9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M216 286h30v76h-30z" fill="#fbfbf9"/>
+  <path d="M266 286h30v76h-30z" fill="#fbfbf9"/>
+
+  <path d="M154 424h204" stroke="#77a5a8" stroke-width="18" stroke-linecap="round"/>
+  <path d="M193 424h126" stroke="#fbfbf9" stroke-opacity="0.9" stroke-width="8" stroke-linecap="round"/>
 </svg>

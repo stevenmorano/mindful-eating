@@ -8,11 +8,15 @@
 * Added category-aware activity selection so re-rolls stay inside the selected category.
 * Added activity category metadata for labels and filtering.
 * Stored `activityCategory` on newly created session records.
+* Expanded active activity categories to 50 built-in tasks each.
+* Expanded Quick & Healthy mindful snack recommendations to 50 options.
+* Added inactive Custom and Emergency idea catalogs for future feature work.
 
 ### Changed
 * Renamed the former SOS action to "Emergency Breathing" with clearer guided reset copy.
 * Updated the activity suggestion screen to show the active category or Any state.
 * Refined iOS standalone app layout handling for safe areas, dark-mode background coverage, and nested dashboard scrolling.
+* Refreshed the PWA app icon with a darker STOP pause mark.
 
 ### Verified
 * `npm run lint`

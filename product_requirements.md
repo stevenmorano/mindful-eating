@@ -23,6 +23,10 @@ STOP! DON'T EAT! is a mobile-first web application designed to help users manage
     7.  **Mindful Snack Unlock:** If they are still hungry after the second completed pause, the app offers a random healthy snack suggestion.
     8.  **Gamification & Logging:** Decisions are saved to local storage. A gamified Dashboard features a Day Streak (with reduced-motion-aware confetti celebrations), a 28-day Craving Heatmap, actionable metrics (Money Saved, Danger Hour), and unlockable badges in a Trophy Case.
     9.  **Emergency Breathing:** A dedicated emergency action bypasses activity selection and immediately starts guided box breathing for intense cravings.
+*   **Catalog:**
+    *   Active distraction categories contain 50 built-in activities each.
+    *   Quick & Healthy contains 50 mindful snack recommendations.
+    *   Custom and Emergency catalogs are stored for future expansion but are not exposed as normal suggestion categories yet.
 
 ## 5. Quality & Accessibility Requirements
 *   The app must pass `npm run lint` and `npm run build` before release.
@@ -40,6 +44,8 @@ STOP! DON'T EAT! is a mobile-first web application designed to help users manage
 *   **Monetization & Distraction:** The app will be monetized via ads. During the 5-minute countdown timer, ads will play on the screen while the user performs the suggested external activity (from the curated list). This ensures the user is distracted by the activity while the app still gets credit for ad impressions.
 *   **Category Selection:** Keep the home screen focused on the large random action, then expose category steering as compact chips on the suggestion screen.
 *   **Emergency Naming:** Rename the former SOS path to Emergency Breathing so users understand it starts a guided 5-minute box-breathing reset.
+*   **Custom Activities:** Keep custom activity ideas parked behind a future paywall feature; do not surface them in the active app flow until that feature is designed.
+*   **App Icon:** Use the custom dark STOP pause icon as the current PWA/favicon asset.
 
 ## 7. Verified Smoke-Test Coverage
 The latest browser smoke test covered:

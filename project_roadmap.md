@@ -58,10 +58,15 @@ This document serves as the central tracking checklist for the "STOP! DON'T EAT!
 - [x] Rename SOS action to Emergency Breathing with clearer helper copy
 - [x] Store `activityCategory` on new session records for future stats
 - [x] Add activity category metadata for labels and filtering
+- [x] Expand active activity categories to 50 tasks each
+- [x] Expand mindful snack recommendations to 50 Quick & Healthy options
+- [x] Park Custom and Emergency idea lists for future paid/emergency features
+- [x] Refresh app icon with a darker STOP pause mark
 
 ## Phase 8: Finalization (Upcoming)
 - [ ] Final production deployment
 - [ ] Real ad integration decision and implementation
 - [ ] Optional persistent analytics or sync strategy
 - [ ] Optional category-level dashboard insights
+- [ ] Optional custom activity paywall design and implementation
 - [ ] Optional automated test suite for core flows
