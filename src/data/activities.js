@@ -124,6 +124,59 @@ export const defaultActivities = [
   { text: "Do a 2-minute cold water hand rinse or face splash", category: "Environment" },
 ];
 
+export const categoryMeta = {
+  Movement: {
+    label: "Move",
+    description: "Body-based pauses",
+    icon: "movement",
+  },
+  "Mind Engagement": {
+    label: "Mind",
+    description: "Games and focus",
+    icon: "mind",
+  },
+  Productive: {
+    label: "Tidy",
+    description: "Small useful tasks",
+    icon: "productive",
+  },
+  Mindfulness: {
+    label: "Reset",
+    description: "Breathing and calm",
+    icon: "mindfulness",
+  },
+  Creative: {
+    label: "Create",
+    description: "Make something quick",
+    icon: "creative",
+  },
+  Social: {
+    label: "Connect",
+    description: "Reach out briefly",
+    icon: "social",
+  },
+  "Self-Improvement": {
+    label: "Grow",
+    description: "Tiny progress",
+    icon: "growth",
+  },
+  "Personal Care": {
+    label: "Care",
+    description: "Hygiene and comfort",
+    icon: "care",
+  },
+  Environment: {
+    label: "Shift",
+    description: "Change the room",
+    icon: "environment",
+  },
+  Custom: {
+    label: "Custom",
+    description: "Your own ideas",
+    icon: "custom",
+  },
+};
+
 export const getActivities = () => {
   let custom = [];
   try {
@@ -133,6 +186,24 @@ export const getActivities = () => {
     custom = [];
   }
   return [...defaultActivities, ...custom];
+};
+
+export const getActivityCategories = () => {
+  const counts = getActivities().reduce((acc, activity) => {
+    const category = activity.category || "Custom";
+    acc[category] = (acc[category] || 0) + 1;
+    return acc;
+  }, {});
+
+  return Object.entries(counts).map(([category, count]) => ({
+    category,
+    count,
+    ...(categoryMeta[category] || {
+      label: category,
+      description: "Saved pause ideas",
+      icon: "custom",
+    }),
+  }));
 };
 
 export const addCustomActivity = (text, category = "Custom") => {

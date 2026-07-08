@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function ActivityView({ activity, onStartTimer, onNewActivity, onCancel, isDark, toggleTheme }) {
+export default function ActivityView({ activity, categoryMeta, isSurprise, onStartTimer, onNewActivity, onCancel, isDark, toggleTheme }) {
     if (!activity) return null;
 
     return (
@@ -28,11 +28,14 @@ export default function ActivityView({ activity, onStartTimer, onNewActivity, on
             </div>
 
             <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                <p style={{ marginBottom: '24px', textTransform: 'uppercase', letterSpacing: '1px', fontSize: '12px', fontWeight: '600' }}>
+                <p style={{ marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '1px', fontSize: '12px', fontWeight: '600' }}>
                     Suggested Activity
                 </p>
+                <span className="activity-category-pill">
+                    {isSurprise ? 'Surprise Me' : categoryMeta?.label || activity.category}
+                </span>
 
-                <div className="mm-card" style={{ width: '100%', marginBottom: '40px', minHeight: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+                <div className="mm-card" style={{ width: '100%', marginTop: '24px', marginBottom: '40px', minHeight: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
                     <h2 style={{ fontSize: '24px', lineHeight: '1.4', fontWeight: '500' }}>{activity.text}</h2>
                 </div>
 
@@ -41,7 +44,7 @@ export default function ActivityView({ activity, onStartTimer, onNewActivity, on
                         Begin 5-Minute Timer
                     </button>
                     <button type="button" className="mm-btn secondary" onClick={onNewActivity}>
-                        Generate another idea
+                        {isSurprise ? 'Generate another idea' : `Another ${categoryMeta?.label || activity.category} idea`}
                     </button>
                 </div>
             </div>

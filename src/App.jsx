@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getActivities } from './data/activities';
+import { getActivities, getActivityCategories, categoryMeta } from './data/activities';
 import { createSession, updateSession } from './data/sessions';
 import HomeView from './components/HomeView';
 import ActivityView from './components/ActivityView';
@@ -12,6 +12,7 @@ function App() {
   const [currentActivity, setCurrentActivity] = useState(null);
   const [currentSessionId, setCurrentSessionId] = useState(null);
   const [pauseRound, setPauseRound] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   // Dev mode state
   const [isDevMode, setIsDevMode] = useState(() => {
@@ -40,24 +41,31 @@ function App() {
 
   const toggleTheme = () => setIsDark(!isDark);
 
-  const getRandomActivity = () => {
+  const getRandomActivity = (category = null) => {
     const allActivities = getActivities();
-    const randomIndex = Math.floor(Math.random() * allActivities.length);
-    return allActivities[randomIndex];
+    const availableActivities = category
+      ? allActivities.filter(activity => activity.category === category)
+      : allActivities;
+    const activityPool = availableActivities.length > 0 ? availableActivities : allActivities;
+    const randomIndex = Math.floor(Math.random() * activityPool.length);
+    return activityPool[randomIndex];
   };
 
-  const handleStart = () => {
+  const handleStart = (category = null) => {
     setPauseRound(1);
     setCurrentSessionId(null);
-    setCurrentActivity(getRandomActivity());
+    setSelectedCategory(category);
+    setCurrentActivity(getRandomActivity(category));
     setView('activity');
   };
 
   const handleEmergencyStart = () => {
     setPauseRound(1);
+    setSelectedCategory('Emergency');
     setCurrentActivity({ text: "Guided Breathing (4-4-4-4): Inhale 4s, Hold 4s, Exhale 4s, Hold 4s", category: "Emergency" });
     const session = createSession({
       activityTitle: "Emergency Breathing",
+      activityCategory: "Emergency",
       activityDurationMinutes: 5,
       pauseRound: 1,
     });
@@ -66,12 +74,13 @@ function App() {
   };
 
   const handleNewActivity = () => {
-    setCurrentActivity(getRandomActivity());
+    setCurrentActivity(getRandomActivity(selectedCategory));
   };
 
   const handleStartTimer = () => {
     const session = createSession({
       activityTitle: currentActivity.text,
+      activityCategory: currentActivity.category,
       activityDurationMinutes: 5,
       pauseRound,
     });
@@ -94,6 +103,7 @@ function App() {
     setCurrentActivity(null);
     setCurrentSessionId(null);
     setPauseRound(1);
+    setSelectedCategory(null);
   };
 
   const handleDecision = (stillHungry) => {
@@ -104,6 +114,7 @@ function App() {
     setCurrentActivity(null);
     setCurrentSessionId(null);
     setPauseRound(1);
+    setSelectedCategory(null);
   };
 
   const handleReset = () => {
@@ -111,6 +122,7 @@ function App() {
     setCurrentActivity(null);
     setCurrentSessionId(null);
     setPauseRound(1);
+    setSelectedCategory(null);
   };
 
   const handleExtendPause = () => {
@@ -119,7 +131,7 @@ function App() {
     }
     setCurrentSessionId(null);
     setPauseRound(2);
-    setCurrentActivity(getRandomActivity());
+    setCurrentActivity(getRandomActivity(selectedCategory));
     setView('activity');
   };
 
@@ -138,6 +150,7 @@ function App() {
             onStart={handleStart} 
             onEmergency={handleEmergencyStart}
             onViewHistory={handleViewHistory} 
+            categories={getActivityCategories()}
             isDark={isDark} 
             toggleTheme={toggleTheme} 
             isDevMode={isDevMode}
@@ -148,6 +161,8 @@ function App() {
       {view === 'activity' && (
         <ActivityView
           activity={currentActivity}
+          categoryMeta={categoryMeta[currentActivity?.category]}
+          isSurprise={!selectedCategory}
           onStartTimer={handleStartTimer}
           onNewActivity={handleNewActivity}
           onCancel={handleReset}

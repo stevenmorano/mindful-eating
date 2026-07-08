@@ -1,5 +1,23 @@
 # Changelog
 
+## 2026-07-08 - Category-First Pause Picker
+
+### Added
+* Added an icon-based home screen pause picker with category tiles.
+* Added a prominent "Surprise Me" path that preserves fully random activity selection.
+* Added category-aware activity selection so re-rolls stay inside the selected category.
+* Added activity category metadata for labels, descriptions, icons, and counts.
+* Stored `activityCategory` on newly created session records.
+
+### Changed
+* Renamed the former SOS action to "Emergency Breathing" with clearer guided reset copy.
+* Updated the activity suggestion screen to show the active category or Surprise Me state.
+* Refined iOS standalone app layout handling for safe areas, dark-mode background coverage, and nested dashboard scrolling.
+
+### Verified
+* `npm run lint`
+* `npm run build`
+
 ## 2026-07-08 - Codex Migration Hardening
 
 ### Fixed

@@ -48,9 +48,20 @@ This document serves as the central tracking checklist for the "STOP! DON'T EAT!
 - [x] Replace Vite/React starter assets with branded app icon metadata
 - [x] Remove mojibake and non-ASCII drift from app/docs/data files
 - [x] Run browser smoke test for Dev Mode, two-pause flow, dashboard, theme toggle, and SOS
+- [x] Improve iOS standalone safe-area handling for installed web-app usage
 
-## Phase 7: Finalization (Upcoming)
+## Phase 7: Category-First Pause Selection (Completed)
+- [x] Add icon-based home screen category picker
+- [x] Preserve fully random activity selection through "Surprise Me"
+- [x] Filter initial activity suggestions by selected category
+- [x] Keep "generate another idea" inside the selected category
+- [x] Rename SOS action to Emergency Breathing with clearer helper copy
+- [x] Store `activityCategory` on new session records for future stats
+- [x] Add activity category metadata for labels, counts, and icons
+
+## Phase 8: Finalization (Upcoming)
 - [ ] Final production deployment
 - [ ] Real ad integration decision and implementation
 - [ ] Optional persistent analytics or sync strategy
+- [ ] Optional category-level dashboard insights
 - [ ] Optional automated test suite for core flows

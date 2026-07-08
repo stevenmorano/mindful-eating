@@ -18,6 +18,7 @@ export const createSession = (sessionData) => {
         id: Date.now().toString(),
         timestamp: new Date().toISOString(),
         activityTitle: sessionData.activityTitle,
+        activityCategory: sessionData.activityCategory || null,
         activityDurationMinutes: sessionData.activityDurationMinutes,
         pauseRound: sessionData.pauseRound || 1,
         completed: false,
