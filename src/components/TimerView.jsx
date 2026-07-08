@@ -62,13 +62,25 @@ export default function TimerView({ duration = 300, onComplete, onCancel }) {
         return `${m}:${s < 10 ? '0' : ''}${s}`;
     };
 
+    const formatAccessibleTime = (seconds) => {
+        const m = Math.floor(seconds / 60);
+        const s = seconds % 60;
+        const minuteText = `${m} ${m === 1 ? 'minute' : 'minutes'}`;
+        const secondText = `${s} ${s === 1 ? 'second' : 'seconds'}`;
+        if (m === 0) return secondText;
+        if (s === 0) return minuteText;
+        return `${minuteText} and ${secondText}`;
+    };
+
     const progress = ((duration - timeLeft) / duration) * 100;
     const strokeDashoffset = 283 - (283 * progress) / 100;
+    const shouldAnnounceTime = timeLeft === duration || timeLeft <= 10 || timeLeft % 30 === 0;
+    const timerAnnouncement = shouldAnnounceTime ? `${formatAccessibleTime(timeLeft)} remaining` : '';
 
     return (
         <div className="view timer-view" style={{ alignItems: 'center', justifyContent: 'center' }}>
             <div style={{ position: 'relative', width: '260px', height: '260px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '48px' }}>
-                <svg width="260" height="260" viewBox="0 0 100 100" style={{ transform: 'rotate(-90deg)', position: 'absolute' }}>
+                <svg aria-hidden="true" focusable="false" width="260" height="260" viewBox="0 0 100 100" style={{ transform: 'rotate(-90deg)', position: 'absolute' }}>
                     <circle className="timer-circle-bg" cx="50" cy="50" r="46" fill="none" strokeWidth="2" />
                     <circle
                         className="timer-circle-progress"
@@ -81,13 +93,17 @@ export default function TimerView({ duration = 300, onComplete, onCancel }) {
                     />
                 </svg>
 
-                <div className="timer-text">
+                <div className="timer-text" role="timer" aria-label={`${formatAccessibleTime(timeLeft)} remaining`}>
                     {formatTime(timeLeft)}
                 </div>
             </div>
 
+            <div className="sr-only" aria-live="polite" aria-atomic="true">
+                {timerAnnouncement}
+            </div>
+
             <h2 style={{ marginBottom: '12px', fontSize: '20px' }}>Stay focused.</h2>
-            <p style={{ textAlign: 'center', maxWidth: '80%', marginBottom: '20px', fontStyle: 'italic', opacity: 0.8 }}>
+            <p aria-live="polite" style={{ textAlign: 'center', maxWidth: '80%', marginBottom: '20px', fontStyle: 'italic', opacity: 0.8 }}>
                 "{affirmation}"
             </p>
 
@@ -109,7 +125,7 @@ export default function TimerView({ duration = 300, onComplete, onCancel }) {
             </div>
 
             <div style={{ width: '100%' }}>
-                <button className="mm-btn secondary" onClick={onCancel} style={{ width: '100%' }}>
+                <button type="button" className="mm-btn secondary" onClick={onCancel} style={{ width: '100%' }}>
                     Cancel Timer
                 </button>
             </div>

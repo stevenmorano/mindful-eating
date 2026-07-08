@@ -4,13 +4,14 @@
   "description": "A mindful eating delay and distract app for ADHD and boredom eating.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#2c7a7b",
+  "background_color": "#fbfbf9",
+  "theme_color": "#4a6c6f",
   "icons": [
     {
-      "src": "/vite.svg",
+      "src": "/app-icon.svg",
       "sizes": "any",
-      "type": "image/svg+xml"
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     }
   ]
 }

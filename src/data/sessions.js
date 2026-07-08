@@ -2,7 +2,14 @@ const STORAGE_KEY = 'mindful_eating_sessions';
 
 export const getSessions = () => {
     const data = localStorage.getItem(STORAGE_KEY);
-    return data ? JSON.parse(data) : [];
+    if (!data) return [];
+
+    try {
+        const parsed = JSON.parse(data);
+        return Array.isArray(parsed) ? parsed : [];
+    } catch {
+        return [];
+    }
 };
 
 export const createSession = (sessionData) => {
@@ -12,6 +19,7 @@ export const createSession = (sessionData) => {
         timestamp: new Date().toISOString(),
         activityTitle: sessionData.activityTitle,
         activityDurationMinutes: sessionData.activityDurationMinutes,
+        pauseRound: sessionData.pauseRound || 1,
         completed: false,
         stillHungry: null,
     };

@@ -1,5 +1,5 @@
 export const snacks = [
-  // 🥤 Quick & Healthy “Mindful Snacks”
+  // Quick & Healthy "Mindful Snacks"
   { text: "Drink a full glass of cold water", category: "Quick & Healthy" },
   { text: "Drink a can of seltzer", category: "Quick & Healthy" },
   { text: "Make some tea", category: "Quick & Healthy" },
@@ -13,7 +13,7 @@ export const snacks = [
 ];
 
 export const defaultActivities = [
-  // 🏃 Physical Movement / Light Exercise
+  // Physical Movement / Light Exercise
   { text: "Do 20 jumping jacks", category: "Movement" },
   { text: "Take a brisk 10-minute walk", category: "Movement" },
   { text: "Do a 1-minute plank", category: "Movement" },
@@ -25,11 +25,11 @@ export const defaultActivities = [
   { text: "Try a quick yoga flow", category: "Movement" },
   { text: "Do 30 seconds of high knees", category: "Movement" },
 
-  // 🧠 Mind Engagement / Distraction
+  // Mind Engagement / Distraction
   { text: "Play a word game or puzzle on your phone", category: "Mind Engagement" },
   { text: "Do a Sudoku or crossword", category: "Mind Engagement" },
   { text: "Read a few pages of a book", category: "Mind Engagement" },
-  { text: "Write down what you’re feeling", category: "Mind Engagement" },
+  { text: "Write down what you're feeling", category: "Mind Engagement" },
   { text: "Do a quick journaling prompt", category: "Mind Engagement" },
   { text: "Watch a short educational video", category: "Mind Engagement" },
   { text: "Listen to a podcast", category: "Mind Engagement" },
@@ -37,7 +37,7 @@ export const defaultActivities = [
   { text: "Scroll Pinterest or an inspo board (not food!)", category: "Mind Engagement" },
   { text: "Play a quick online brain game", category: "Mind Engagement" },
 
-  // 🧼 Productive Tasks
+  // Productive Tasks
   { text: "Clean the kitchen counter", category: "Productive" },
   { text: "Organize your desk", category: "Productive" },
   { text: "Take out the trash", category: "Productive" },
@@ -49,7 +49,7 @@ export const defaultActivities = [
   { text: "Delete junk emails", category: "Productive" },
   { text: "Make your bed", category: "Productive" },
 
-  // 🧘 Mindfulness & Self-Regulation
+  // Mindfulness & Self-Regulation
   { text: "Take 5 deep breaths", category: "Mindfulness" },
   { text: "Do a guided 5-minute meditation", category: "Mindfulness" },
   { text: "Practice box breathing (4-4-4-4)", category: "Mindfulness" },
@@ -61,7 +61,7 @@ export const defaultActivities = [
   { text: "Step outside and feel the air", category: "Mindfulness" },
   { text: "Stretch your neck and shoulders slowly", category: "Mindfulness" },
 
-  // ✍️ Creative Distractions
+  // Creative Distractions
   { text: "Draw or doodle something random", category: "Creative" },
   { text: "Write a poem or short story", category: "Creative" },
   { text: "Record a voice memo to your future self", category: "Creative" },
@@ -70,9 +70,9 @@ export const defaultActivities = [
   { text: "Design something digitally (Canva, etc.)", category: "Creative" },
   { text: "Make a playlist", category: "Creative" },
   { text: "Start writing a to-do list for tomorrow", category: "Creative" },
-  { text: "Write a letter you’ll never send", category: "Creative" },
+  { text: "Write a letter you'll never send", category: "Creative" },
 
-  // 💬 Social or Connection Actions
+  // Social or Connection Actions
   { text: "Text a friend", category: "Social" },
   { text: "Call someone you miss", category: "Social" },
   { text: "Call a family members", category: "Social" },
@@ -80,13 +80,13 @@ export const defaultActivities = [
   { text: "Hop on a quick Discord or chat", category: "Social" },
   { text: "Check in on a friend or family member", category: "Social" },
   { text: "Join a group chat or community discussion", category: "Social" },
-  { text: "Reply to messages you’ve ignored", category: "Social" },
-  { text: "Write a nice comment on someone’s post", category: "Social" },
+  { text: "Reply to messages you've ignored", category: "Social" },
+  { text: "Write a nice comment on someone's post", category: "Social" },
   { text: "Share a voice note with a friend", category: "Social" },
   { text: "Send a gratitude message", category: "Social" },
 
-  // 💡 Mini Goals & Self-Improvement
-  { text: "Write 3 things you’re grateful for", category: "Self-Improvement" },
+  // Mini Goals & Self-Improvement
+  { text: "Write 3 things you're grateful for", category: "Self-Improvement" },
   { text: "Look at your vision board", category: "Self-Improvement" },
   { text: "Update your calendar or planner", category: "Self-Improvement" },
   { text: "Set a new mini-goal for the day", category: "Self-Improvement" },
@@ -94,10 +94,10 @@ export const defaultActivities = [
   { text: "Review your budget or expenses", category: "Self-Improvement" },
   { text: "Organize your notes or files", category: "Self-Improvement" },
   { text: "Watch a 2-minute skill tutorial", category: "Self-Improvement" },
-  { text: "Add something to your “someday” list", category: "Self-Improvement" },
+  { text: "Add something to your \"someday\" list", category: "Self-Improvement" },
   { text: "Check something small off your task list", category: "Self-Improvement" },
 
-  // 🧼 Personal Care
+  // Personal Care
   { text: "Wash your hands", category: "Personal Care" },
   { text: "Brush your teeth", category: "Personal Care" },
   { text: "Floss your teeth", category: "Personal Care" },
@@ -111,7 +111,7 @@ export const defaultActivities = [
   { text: "Clip or file your nails", category: "Personal Care" },
   { text: "Do a quick posture check", category: "Personal Care" },
 
-  // 🌿 Sensory & Environment Shifts
+  // Sensory & Environment Shifts
   { text: "Step outside for fresh air", category: "Environment" },
   { text: "Open a window and breathe deeply", category: "Environment" },
   { text: "Change the lighting in the room", category: "Environment" },
@@ -125,12 +125,24 @@ export const defaultActivities = [
 ];
 
 export const getActivities = () => {
-  const custom = JSON.parse(localStorage.getItem('mm-custom-activities') || '[]');
+  let custom = [];
+  try {
+    const parsed = JSON.parse(localStorage.getItem('mm-custom-activities') || '[]');
+    custom = Array.isArray(parsed) ? parsed : [];
+  } catch {
+    custom = [];
+  }
   return [...defaultActivities, ...custom];
 };
 
 export const addCustomActivity = (text, category = "Custom") => {
-  const custom = JSON.parse(localStorage.getItem('mm-custom-activities') || '[]');
+  let custom = [];
+  try {
+    const parsed = JSON.parse(localStorage.getItem('mm-custom-activities') || '[]');
+    custom = Array.isArray(parsed) ? parsed : [];
+  } catch {
+    custom = [];
+  }
   custom.push({ text, category });
   localStorage.setItem('mm-custom-activities', JSON.stringify(custom));
 };

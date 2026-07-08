@@ -1,13 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { getSessions } from '../data/sessions';
 
 export default function HistoryView({ onClose, isDark, toggleTheme }) {
-    const [sessions, setSessions] = useState([]);
+    const [sessions] = useState(() => getSessions() || []);
     const [showRawLog, setShowRawLog] = useState(false);
-
-    useEffect(() => {
-        setSessions(getSessions() || []);
-    }, []);
 
     const totalSessions = sessions.length;
     const completedSessions = sessions.filter(s => s.completed);
@@ -133,21 +129,21 @@ export default function HistoryView({ onClose, isDark, toggleTheme }) {
             id: 'iron_will',
             title: 'Iron Will',
             description: 'Hit a 7-day craving streak.',
-            icon: '🛡️',
+            icon: '7',
             unlocked: cravingStreak >= 7
         },
         {
             id: 'master_distraction',
             title: 'Distraction Master',
             description: 'Completed 50 total pauses.',
-            icon: '🧘',
+            icon: '50',
             unlocked: totalSessions >= 50
         },
         {
             id: 'late_night',
             title: 'Night Guardian',
             description: 'Passed 5 cravings after 9 PM.',
-            icon: '🦉',
+            icon: '9P',
             unlocked: sessions.filter(s => {
                 const hour = new Date(s.timestamp).getHours();
                 return (hour >= 21 || hour < 3) && s.completed && s.stillHungry === false;
@@ -157,7 +153,7 @@ export default function HistoryView({ onClose, isDark, toggleTheme }) {
             id: 'sos_survivor',
             title: 'SOS Survivor',
             description: 'Defeated urge using Emergency.',
-            icon: '🚨',
+            icon: 'SOS',
             unlocked: sessions.filter(s => s.activityTitle === "Emergency Breathing" && s.completed && s.stillHungry === false).length >= 1
         }
     ];
@@ -167,8 +163,8 @@ export default function HistoryView({ onClose, isDark, toggleTheme }) {
     const formatDate = (isoString) => {
         try {
             const d = new Date(isoString);
-            return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' • ' + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-        } catch (e) {
+            return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' - ' + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+        } catch {
             return 'Unknown Date';
         }
     };
@@ -176,17 +172,23 @@ export default function HistoryView({ onClose, isDark, toggleTheme }) {
     return (
         <div className="view history-view" style={{ padding: '24px 20px', display: 'flex', flexDirection: 'column' }}>
             <div className="view-header" style={{ marginBottom: '24px' }}>
-                <button onClick={onClose} className="header-btn" style={{ padding: '0', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                <button type="button" onClick={onClose} className="header-btn" style={{ padding: '0', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
                     Back
                 </button>
                 <h3 className="logo-text">Dashboard</h3>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <button className="icon-btn" onClick={toggleTheme} aria-label="Toggle Theme">
+                    <button
+                        type="button"
+                        className="icon-btn"
+                        onClick={toggleTheme}
+                        aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+                        aria-pressed={isDark}
+                    >
                         {isDark ? (
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                            <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                         ) : (
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+                            <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
                         )}
                     </button>
                 </div>
@@ -196,7 +198,7 @@ export default function HistoryView({ onClose, isDark, toggleTheme }) {
                 {totalSessions === 0 ? (
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '80%', textAlign: 'center' }}>
                         <p style={{ marginBottom: '32px', fontSize: '16px', maxWidth: '80%' }}>Your dashboard will populate here once you complete your first pause.</p>
-                        <button className="mm-btn primary-solid" onClick={onClose}>Return Home</button>
+                        <button type="button" className="mm-btn primary-solid" onClick={onClose}>Return Home</button>
                     </div>
                 ) : (
                     <>
@@ -207,7 +209,7 @@ export default function HistoryView({ onClose, isDark, toggleTheme }) {
                                     <div style={{ fontSize: '14px', opacity: 0.9, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '4px' }}>Day Streak</div>
                                     <div style={{ fontSize: '42px', fontWeight: '800', lineHeight: '1' }}>{cravingStreak}</div>
                                 </div>
-                                <div style={{ fontSize: '48px' }}>🔥</div>
+                                <div style={{ fontSize: '48px' }}>7</div>
                             </div>
 
                             {/* Money Saved */}
@@ -237,7 +239,7 @@ export default function HistoryView({ onClose, isDark, toggleTheme }) {
                             {/* Best Distraction */}
                             <div style={{ gridColumn: 'span 2', background: 'var(--mm-bg-surface)', border: '1px solid var(--mm-border)', padding: '20px', borderRadius: '20px' }}>
                                 <div style={{ fontSize: '12px', color: 'var(--mm-text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}>Top Distraction</div>
-                                <div style={{ fontSize: '18px', fontWeight: '600', color: 'var(--mm-primary)' }}>{bestActivity}</div>
+                                <div style={{ fontSize: '18px', fontWeight: '600', color: 'var(--mm-accent-primary)' }}>{bestActivity}</div>
                             </div>
                             {/* Heatmap */}
                             <div style={{ gridColumn: 'span 2', background: 'var(--mm-bg-surface)', border: '1px solid var(--mm-border)', padding: '20px', borderRadius: '20px' }}>
@@ -259,17 +261,18 @@ export default function HistoryView({ onClose, isDark, toggleTheme }) {
                                                     border: isEmpty ? '2px solid var(--mm-border)' : 'none',
                                                     opacity: isEmpty ? 0.3 : 1
                                                 }} 
-                                                title={d.toLocaleDateString()} 
+                                                title={d.toLocaleDateString()}
+                                                aria-label={`${d.toLocaleDateString()}: ${isEmpty ? 'No craving logged' : 'Craving activity logged'}`}
                                             />
                                         );
                                     })}
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '12px', fontSize: '10px', color: 'var(--mm-text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                                     <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                        <div style={{ width: '8px', height: '8px', borderRadius: '2px', background: '#10B981' }}></div> Pass
-                                        <div style={{ width: '8px', height: '8px', borderRadius: '2px', background: '#F59E0B', marginLeft: '4px' }}></div> Snack
+                                        <div aria-hidden="true" style={{ width: '8px', height: '8px', borderRadius: '2px', background: '#10B981' }}></div> Pass
+                                        <div aria-hidden="true" style={{ width: '8px', height: '8px', borderRadius: '2px', background: '#F59E0B', marginLeft: '4px' }}></div> Snack
                                     </div>
-                                    <span>Today ➔</span>
+                                    <span>Today -&gt;</span>
                                 </div>
                             </div>
 
@@ -301,16 +304,19 @@ export default function HistoryView({ onClose, isDark, toggleTheme }) {
 
                         {/* Raw Log Toggle */}
                         <div style={{ marginTop: '32px' }}>
-                            <button 
-                                onClick={() => setShowRawLog(!showRawLog)} 
+                            <button
+                                type="button"
+                                onClick={() => setShowRawLog(!showRawLog)}
+                                aria-expanded={showRawLog}
+                                aria-controls="raw-session-log"
                                 style={{ width: '100%', padding: '16px', background: 'transparent', border: '1px solid var(--mm-border)', borderRadius: '12px', color: 'var(--mm-text-dark)', fontWeight: '600', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
                             >
                                 View Raw Log
-                                <span style={{ transform: showRawLog ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>▼</span>
+                                <span style={{ transform: showRawLog ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>v</span>
                             </button>
 
                             {showRawLog && (
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '16px', padding: '0 8px' }}>
+                                <div id="raw-session-log" style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '16px', padding: '0 8px' }}>
                                     {sortedSessions.map(session => (
                                         <div key={session.id} style={{ padding: '16px 0', borderBottom: '1px solid var(--mm-border)' }}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '8px' }}>
@@ -327,8 +333,8 @@ export default function HistoryView({ onClose, isDark, toggleTheme }) {
                                                         fontWeight: '500',
                                                         color: session.stillHungry === false ? 'var(--mm-accent-primary)' : 'var(--mm-text-muted)' 
                                                     }}>
-                                                        {session.stillHungry === false ? '✓ Craving passed' : 
-                                                         session.stillHungry === true ? '• Ate mindfully' : 
+                                                        {session.stillHungry === false ? 'Craving passed' : 
+                                                         session.stillHungry === true ? 'Ate mindfully' : 
                                                          'Unresolved'}
                                                     </span>
                                                 )}

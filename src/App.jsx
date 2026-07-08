@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getActivities, getRandomSnack } from './data/activities';
+import { getActivities } from './data/activities';
 import { createSession, updateSession } from './data/sessions';
 import HomeView from './components/HomeView';
 import ActivityView from './components/ActivityView';
@@ -11,6 +11,7 @@ function App() {
   const [view, setView] = useState('home'); // home, activity, timer, decision, history
   const [currentActivity, setCurrentActivity] = useState(null);
   const [currentSessionId, setCurrentSessionId] = useState(null);
+  const [pauseRound, setPauseRound] = useState(1);
 
   // Dev mode state
   const [isDevMode, setIsDevMode] = useState(() => {
@@ -46,15 +47,19 @@ function App() {
   };
 
   const handleStart = () => {
+    setPauseRound(1);
+    setCurrentSessionId(null);
     setCurrentActivity(getRandomActivity());
     setView('activity');
   };
 
   const handleEmergencyStart = () => {
+    setPauseRound(1);
     setCurrentActivity({ text: "Guided Breathing (4-4-4-4): Inhale 4s, Hold 4s, Exhale 4s, Hold 4s", category: "Emergency" });
     const session = createSession({
       activityTitle: "Emergency Breathing",
       activityDurationMinutes: 5,
+      pauseRound: 1,
     });
     setCurrentSessionId(session.id);
     setView('timer');
@@ -68,6 +73,7 @@ function App() {
     const session = createSession({
       activityTitle: currentActivity.text,
       activityDurationMinutes: 5,
+      pauseRound,
     });
     setCurrentSessionId(session.id);
     setView('timer');
@@ -87,6 +93,7 @@ function App() {
     setView('home');
     setCurrentActivity(null);
     setCurrentSessionId(null);
+    setPauseRound(1);
   };
 
   const handleDecision = (stillHungry) => {
@@ -96,12 +103,24 @@ function App() {
     setView('home');
     setCurrentActivity(null);
     setCurrentSessionId(null);
+    setPauseRound(1);
   };
 
   const handleReset = () => {
     setView('home');
     setCurrentActivity(null);
     setCurrentSessionId(null);
+    setPauseRound(1);
+  };
+
+  const handleExtendPause = () => {
+    if (currentSessionId) {
+      updateSession(currentSessionId, { stillHungry: true });
+    }
+    setCurrentSessionId(null);
+    setPauseRound(2);
+    setCurrentActivity(getRandomActivity());
+    setView('activity');
   };
 
   const handleViewHistory = () => {
@@ -148,7 +167,8 @@ function App() {
         <DecisionView
           onEat={() => handleDecision(true)}
           onSkip={() => handleDecision(false)}
-          onExtend={handleStart}
+          onExtend={handleExtendPause}
+          canEatSnack={pauseRound >= 2}
         />
       )}
 
