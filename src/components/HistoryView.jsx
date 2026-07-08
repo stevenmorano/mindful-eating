@@ -170,7 +170,7 @@ export default function HistoryView({ onClose, isDark, toggleTheme }) {
     };
 
     return (
-        <div className="view history-view" style={{ padding: '24px 20px', display: 'flex', flexDirection: 'column' }}>
+        <div className="view history-view" style={{ display: 'flex', flexDirection: 'column' }}>
             <div className="view-header" style={{ marginBottom: '24px' }}>
                 <button type="button" onClick={onClose} className="header-btn" style={{ padding: '0', display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
