@@ -49,6 +49,8 @@ This document serves as the central tracking checklist for the "STOP! DON'T EAT!
 - [x] Remove mojibake and non-ASCII drift from app/docs/data files
 - [x] Run browser smoke test for Dev Mode, two-pause flow, dashboard, theme toggle, and SOS
 - [x] Improve iOS standalone safe-area handling for installed web-app usage
+- [x] Add sequential achievement celebration popups
+- [x] Add password-locked private QA tools for demo progress and timer testing
 
 ## Phase 7: Category-Aware Pause Selection (Completed)
 - [x] Preserve the large home screen random action

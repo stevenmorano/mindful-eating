@@ -1,15 +1,24 @@
 import React from 'react';
 
-export default function HomeView({ onStart, onEmergency, onViewHistory, isDark, toggleTheme, isDevMode, toggleDevMode }) {
+export default function HomeView({ onStart, onEmergency, onViewHistory, onOpenDevTools, isDevToolsUnlocked, isDark, toggleTheme }) {
     return (
         <div className="view home-view">
             <div className="view-header">
                 <h3 className="logo-text brand-mark">STOP! DON'T EAT!</h3>
                 <div className="home-header-actions">
-                    <label className="dev-toggle">
-                        <input type="checkbox" checked={isDevMode} onChange={toggleDevMode} />
-                        DEV MODE
-                    </label>
+                    <button
+                        type="button"
+                        className={`icon-btn private-tools-btn ${isDevToolsUnlocked ? 'unlocked' : ''}`}
+                        onClick={onOpenDevTools}
+                        aria-label={isDevToolsUnlocked ? 'Open private tools' : 'Unlock private tools'}
+                        title={isDevToolsUnlocked ? 'Private tools' : 'Unlock private tools'}
+                    >
+                        {isDevToolsUnlocked ? (
+                            <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 11V8a5 5 0 10-10 0v3"/><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M12 15v2"/></svg>
+                        ) : (
+                            <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V8a5 5 0 0110 0v3"/></svg>
+                        )}
+                    </button>
                     <button
                         type="button"
                         className="icon-btn"

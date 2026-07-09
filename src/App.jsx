@@ -1,11 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { getActivities, getActivityCategories, categoryMeta } from './data/activities';
-import { createSession, updateSession } from './data/sessions';
+import { createSession, updateSession, getRealSessions, getSessions } from './data/sessions';
+import {
+  getAchievementStats,
+  getNewlyUnlockedAchievements,
+  loadSeenAchievementIds,
+  saveSeenAchievementIds,
+  seedSeenAchievementIdsFromSessions,
+} from './data/achievements';
+import {
+  buildDemoSessions,
+  clearDemoProgressEnabled,
+  clearDemoSessions,
+  getDemoProgressEnabled,
+  getDevToolsUnlocked,
+  clearDemoSeenAchievementIds,
+  getDemoSeenAchievementIds,
+  setDemoProgressEnabled,
+  setDemoSessions,
+  setDemoSeenAchievementIds,
+  setDevToolsUnlocked,
+  verifyDevToolsPassword,
+} from './data/dev-tools';
 import HomeView from './components/HomeView';
 import ActivityView from './components/ActivityView';
 import TimerView from './components/TimerView';
 import DecisionView from './components/DecisionView';
 import HistoryView from './components/HistoryView';
+import AchievementCelebration from './components/AchievementCelebration';
+import DevToolsModal from './components/DevToolsModal';
 
 function App() {
   const [view, setView] = useState('home'); // home, activity, timer, decision, history
@@ -13,6 +36,12 @@ function App() {
   const [currentSessionId, setCurrentSessionId] = useState(null);
   const [pauseRound, setPauseRound] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [achievementQueue, setAchievementQueue] = useState([]);
+  const [isDevToolsUnlocked, setIsDevToolsUnlockedState] = useState(() => getDevToolsUnlocked());
+  const [isDevToolsOpen, setIsDevToolsOpen] = useState(false);
+  const [devToolsPassword, setDevToolsPassword] = useState('');
+  const [devToolsError, setDevToolsError] = useState('');
+  const [isDemoProgressEnabled, setIsDemoProgressEnabled] = useState(() => getDemoProgressEnabled());
 
   // Dev mode state
   const [isDevMode, setIsDevMode] = useState(() => {
@@ -39,7 +68,108 @@ function App() {
     }
   }, [isDark]);
 
+  useEffect(() => {
+    setDevToolsUnlocked(isDevToolsUnlocked);
+  }, [isDevToolsUnlocked]);
+
+  useEffect(() => {
+    setDemoProgressEnabled(isDemoProgressEnabled);
+  }, [isDemoProgressEnabled]);
+
+  useEffect(() => {
+    const seenAchievementIds = loadSeenAchievementIds();
+    if (seenAchievementIds.size === 0) {
+      seedSeenAchievementIdsFromSessions(getRealSessions());
+    }
+  }, []);
+
   const toggleTheme = () => setIsDark(!isDark);
+
+  const queueAchievementCelebrations = (achievements = null, useDemoSeenStore = isDemoProgressEnabled) => {
+    const sessions = getSessions();
+    const seenIds = useDemoSeenStore ? getDemoSeenAchievementIds() : loadSeenAchievementIds();
+    const newUnlocks = achievements || getNewlyUnlockedAchievements(sessions, seenIds);
+
+    if (newUnlocks.length === 0) {
+      return;
+    }
+
+    newUnlocks.forEach(achievement => seenIds.add(achievement.id));
+    if (useDemoSeenStore) {
+      setDemoSeenAchievementIds(seenIds);
+    } else {
+      saveSeenAchievementIds(seenIds);
+    }
+    setAchievementQueue(currentQueue => [...currentQueue, ...newUnlocks]);
+  };
+
+  const handleOpenDevTools = () => {
+    setDevToolsError('');
+    setIsDevToolsOpen(true);
+  };
+
+  const handleCloseDevTools = () => {
+    setIsDevToolsOpen(false);
+    setDevToolsPassword('');
+    setDevToolsError('');
+  };
+
+  const handleDevToolsPasswordSubmit = async () => {
+    const isValid = await verifyDevToolsPassword(devToolsPassword);
+    if (!isValid) {
+      setDevToolsError('That password did not unlock the private tools.');
+      return;
+    }
+
+    setIsDevToolsUnlockedState(true);
+    setDevToolsPassword('');
+    setDevToolsError('');
+  };
+
+  const handleLockDevTools = () => {
+    setIsDevToolsUnlockedState(false);
+    setIsDevToolsOpen(false);
+    setDevToolsPassword('');
+    setDevToolsError('');
+  };
+
+  const handleLoadDemoProgress = () => {
+    setDemoSessions(buildDemoSessions());
+    setDemoProgressEnabled(true);
+    setIsDemoProgressEnabled(true);
+    clearDemoSeenAchievementIds();
+    queueAchievementCelebrations(null, true);
+  };
+
+  const handleClearDemoProgress = () => {
+    clearDemoSessions();
+    clearDemoProgressEnabled();
+    clearDemoSeenAchievementIds();
+    setIsDemoProgressEnabled(false);
+  };
+
+  const handleScanAchievements = () => {
+    queueAchievementCelebrations();
+  };
+
+  const handleResetSeenAchievements = () => {
+    if (isDemoProgressEnabled) {
+      setDemoSeenAchievementIds(new Set());
+      return;
+    }
+
+    seedSeenAchievementIdsFromSessions(getRealSessions());
+  };
+
+  const handleReplayAchievementDemo = () => {
+    const stats = getAchievementStats(getSessions());
+    const demoBurst = stats.achievements.filter(achievement =>
+      ['first_pause', 'three_pauses', 'five_wins', 'first_savings', 'sampler', 'second_thought', 'double_pause_win', 'no_shame_snack'].includes(achievement.id)
+    );
+
+    if (demoBurst.length === 0) return;
+    setAchievementQueue(currentQueue => [...currentQueue, ...demoBurst]);
+  };
 
   const getRandomActivity = (category = null) => {
     const allActivities = getActivities();
@@ -115,6 +245,7 @@ function App() {
     if (currentSessionId) {
       updateSession(currentSessionId, { stillHungry });
     }
+    queueAchievementCelebrations();
     setView('home');
     setCurrentActivity(null);
     setCurrentSessionId(null);
@@ -155,10 +286,10 @@ function App() {
             onStart={handleStart} 
             onEmergency={handleEmergencyStart}
             onViewHistory={handleViewHistory} 
+            onOpenDevTools={handleOpenDevTools}
+            isDevToolsUnlocked={isDevToolsUnlocked}
             isDark={isDark} 
             toggleTheme={toggleTheme} 
-            isDevMode={isDevMode}
-            toggleDevMode={() => setIsDevMode(!isDevMode)}
         />
       )}
 
@@ -196,6 +327,33 @@ function App() {
       {view === 'history' && (
         <HistoryView onClose={handleCloseHistory} isDark={isDark} toggleTheme={toggleTheme} />
       )}
+
+      {achievementQueue.length > 0 && (
+        <AchievementCelebration
+          achievement={achievementQueue[0]}
+          total={achievementQueue.length}
+          onDismiss={() => setAchievementQueue(currentQueue => currentQueue.slice(1))}
+        />
+      )}
+
+      <DevToolsModal
+        isOpen={isDevToolsOpen}
+        isUnlocked={isDevToolsUnlocked}
+        isDevMode={isDevMode}
+        passwordValue={devToolsPassword}
+        passwordError={devToolsError}
+        isDemoProgressEnabled={isDemoProgressEnabled}
+        onPasswordChange={setDevToolsPassword}
+        onPasswordSubmit={handleDevToolsPasswordSubmit}
+        onClose={handleCloseDevTools}
+        onToggleDevMode={() => setIsDevMode(!isDevMode)}
+        onLoadDemoProgress={handleLoadDemoProgress}
+        onClearDemoProgress={handleClearDemoProgress}
+        onScanAchievements={handleScanAchievements}
+        onResetSeenAchievements={handleResetSeenAchievements}
+        onReplayAchievementDemo={handleReplayAchievementDemo}
+        onLock={handleLockDevTools}
+      />
     </div>
   );
 }

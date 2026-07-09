@@ -18,6 +18,7 @@ If you spend just 5 minutes engaged in a different activity, the immediate urge 
     *   **Day Streaks:** Tracks consecutive days of successfully passing cravings.
     *   **Craving Heatmap:** A GitHub-style 28-day contribution graph showing daily outcomes.
     *   **Trophy Case:** Unlockable achievements like "Iron Will" and "Night Guardian".
+    *   **Achievement Popups:** Big celebratory unlock cards appear one after another when new achievements are earned.
     *   **Category Insights:** Shows category variety, strongest category, and top category pass rates.
     *   **Estimated Savings:** Calculates money saved by not buying junk food or eating out.
     *   **Raw Log:** Expandable chronological session history for debugging and review.
@@ -25,6 +26,7 @@ If you spend just 5 minutes engaged in a different activity, the immediate urge 
 *   **PWA Branding:** App shell and manifest use a custom dark STOP pause icon instead of Vite starter assets.
 *   **iOS Standalone Layout Support:** The app shell accounts for iPhone safe areas and standalone web-app viewport behavior.
 *   **Dev Mode:** A local storage toggle speeds up 5-minute timers to 5 seconds for rapid UI/UX testing.
+*   **Private QA Tools:** A password-locked panel hides the timer shortcut and adds sample-progress controls for testing achievement popups and dashboard states.
 
 ## Tech Stack
 *   **Frontend:** React, Vite

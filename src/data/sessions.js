@@ -1,7 +1,9 @@
+import { getDemoProgressEnabled, getDemoSessions } from './dev-tools';
+
 const STORAGE_KEY = 'mindful_eating_sessions';
 
-export const getSessions = () => {
-    const data = localStorage.getItem(STORAGE_KEY);
+function readStoredSessions(key) {
+    const data = localStorage.getItem(key);
     if (!data) return [];
 
     try {
@@ -10,10 +12,23 @@ export const getSessions = () => {
     } catch {
         return [];
     }
+}
+
+function writeStoredSessions(key, sessions) {
+    localStorage.setItem(key, JSON.stringify(sessions));
+}
+
+export const getSessions = () => {
+    const sessions = readStoredSessions(STORAGE_KEY);
+    if (!getDemoProgressEnabled()) return sessions;
+
+    return [...sessions, ...getDemoSessions()];
 };
 
+export const getRealSessions = () => readStoredSessions(STORAGE_KEY);
+
 export const createSession = (sessionData) => {
-    const sessions = getSessions();
+    const sessions = readStoredSessions(STORAGE_KEY);
     const newSession = {
         id: Date.now().toString(),
         timestamp: new Date().toISOString(),
@@ -25,16 +40,16 @@ export const createSession = (sessionData) => {
         stillHungry: null,
     };
     sessions.push(newSession);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(sessions));
+    writeStoredSessions(STORAGE_KEY, sessions);
     return newSession;
 };
 
 export const updateSession = (id, updates) => {
-    const sessions = getSessions();
+    const sessions = readStoredSessions(STORAGE_KEY);
     const index = sessions.findIndex(s => s.id === id);
     if (index !== -1) {
         sessions[index] = { ...sessions[index], ...updates };
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(sessions));
+        writeStoredSessions(STORAGE_KEY, sessions);
         return sessions[index];
     }
     return null;
