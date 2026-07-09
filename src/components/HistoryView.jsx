@@ -201,6 +201,54 @@ function StatCard({ value, label, tone = 'default' }) {
     );
 }
 
+function CategoryInsightCard({ completedCategories, categoryInsights, totalCategories }) {
+    const varietyPercent = Math.round((completedCategories / totalCategories) * 100);
+
+    return (
+        <section className="dashboard-card category-insights-card">
+            <div className="dashboard-card-header">
+                <strong>Category Insights</strong>
+                <span>{completedCategories}/{totalCategories} tried</span>
+            </div>
+
+            <div className="category-insight-hero">
+                <div
+                    className="category-variety-ring"
+                    style={{ '--variety-progress': `${varietyPercent}%` }}
+                    aria-label={`Category variety progress ${completedCategories} of ${totalCategories}`}
+                >
+                    <strong>{varietyPercent}%</strong>
+                    <span>Variety</span>
+                </div>
+                <div>
+                    <span className="dashboard-card-label">Strongest Pattern</span>
+                    <strong className="dashboard-highlight-text">
+                        {categoryInsights[0]?.label || 'Try a few categories'}
+                    </strong>
+                    <p>{categoryInsights[0] ? `${categoryInsights[0].passRate}% pass rate across ${categoryInsights[0].total} pauses.` : 'Your category trends will appear after a few completed pauses.'}</p>
+                </div>
+            </div>
+
+            {categoryInsights.length > 0 && (
+                <div className="category-insight-list">
+                    {categoryInsights.slice(0, 3).map(category => (
+                        <div className="category-insight-row" key={category.name}>
+                            <div>
+                                <strong>{category.label}</strong>
+                                <span>{category.passed}/{category.total} cravings passed</span>
+                            </div>
+                            <div className="category-insight-meter" aria-label={`${category.label} pass rate ${category.passRate}%`}>
+                                <span style={{ width: `${category.passRate}%` }} />
+                            </div>
+                            <small>{category.passRate}%</small>
+                        </div>
+                    ))}
+                </div>
+            )}
+        </section>
+    );
+}
+
 export default function HistoryView({ onClose, isDark, toggleTheme }) {
     const [sessions] = useState(() => getSessions() || []);
     const [showRawLog, setShowRawLog] = useState(false);
@@ -237,7 +285,7 @@ export default function HistoryView({ onClose, isDark, toggleTheme }) {
             activityStats[s.activityTitle].total++;
             if (s.stillHungry === false) activityStats[s.activityTitle].passed++;
         }
-        if (s.activityCategory && s.activityCategory !== 'Emergency') {
+        if (s.completed && s.activityCategory && s.activityCategory !== 'Emergency') {
             categoryStats[s.activityCategory] = categoryStats[s.activityCategory] || { total: 0, passed: 0 };
             categoryStats[s.activityCategory].total++;
             if (s.stillHungry === false) categoryStats[s.activityCategory].passed++;
@@ -263,6 +311,17 @@ export default function HistoryView({ onClose, isDark, toggleTheme }) {
             bestCategory = categoryMeta[category]?.label || category;
         }
     });
+
+    const categoryInsights = Object.entries(categoryStats)
+        .map(([category, stats]) => ({
+            name: category,
+            label: categoryMeta[category]?.label || category,
+            total: stats.total,
+            passed: stats.passed,
+            passRate: Math.round((stats.passed / stats.total) * 100),
+        }))
+        .sort((a, b) => b.passRate - a.passRate || b.total - a.total || a.label.localeCompare(b.label));
+    const completedCategories = categoryInsights.length;
 
     const last28Days = Array.from({ length: 28 }).map((_, i) => {
         const d = new Date();
@@ -397,6 +456,12 @@ export default function HistoryView({ onClose, isDark, toggleTheme }) {
                             <span className="dashboard-card-label">Best Category</span>
                             <strong className="dashboard-highlight-text">{bestCategory}</strong>
                         </section>
+
+                        <CategoryInsightCard
+                            completedCategories={completedCategories}
+                            categoryInsights={categoryInsights}
+                            totalCategories={CATEGORY_TARGETS.length}
+                        />
 
                         <section className="dashboard-card">
                             <div className="dashboard-card-header">

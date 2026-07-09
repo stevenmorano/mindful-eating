@@ -653,6 +653,106 @@ p {
   padding: 0;
 }
 
+.category-insights-card {
+  overflow: hidden;
+}
+
+.category-insight-hero {
+  display: grid;
+  grid-template-columns: 86px minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.category-insight-hero p {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.category-variety-ring {
+  width: 86px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at center, var(--mm-bg-surface) 0 58%, transparent 59%),
+    conic-gradient(var(--mm-accent-primary) var(--variety-progress), var(--mm-accent-secondary) 0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.category-variety-ring strong {
+  color: var(--mm-text-dark);
+  font-size: 20px;
+  line-height: 1;
+}
+
+.category-variety-ring span {
+  margin-top: 4px;
+  color: var(--mm-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.category-insight-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.category-insight-row {
+  min-height: 48px;
+  display: grid;
+  grid-template-columns: minmax(96px, 1fr) minmax(64px, 92px) 36px;
+  gap: 10px;
+  align-items: center;
+}
+
+.category-insight-row strong,
+.category-insight-row span {
+  display: block;
+}
+
+.category-insight-row strong {
+  color: var(--mm-text-dark);
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.category-insight-row span {
+  margin-top: 3px;
+  color: var(--mm-text-muted);
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.category-insight-row small {
+  color: var(--mm-accent-primary);
+  text-align: right;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.category-insight-meter {
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--mm-accent-secondary);
+}
+
+.category-insight-meter span {
+  display: block;
+  height: 100%;
+  margin: 0;
+  border-radius: inherit;
+  background: var(--mm-accent-primary);
+}
+
 .heatmap-grid {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));

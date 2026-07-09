@@ -67,6 +67,6 @@ This document serves as the central tracking checklist for the "STOP! DON'T EAT!
 - [ ] Final production deployment
 - [ ] Real ad integration decision and implementation
 - [ ] Optional persistent analytics or sync strategy
-- [ ] Optional category-level dashboard insights
+- [x] Optional category-level dashboard insights
 - [ ] Optional custom activity paywall design and implementation
 - [ ] Optional automated test suite for core flows

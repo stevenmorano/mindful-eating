@@ -18,6 +18,7 @@ If you spend just 5 minutes engaged in a different activity, the immediate urge 
     *   **Day Streaks:** Tracks consecutive days of successfully passing cravings.
     *   **Craving Heatmap:** A GitHub-style 28-day contribution graph showing daily outcomes.
     *   **Trophy Case:** Unlockable achievements like "Iron Will" and "Night Guardian".
+    *   **Category Insights:** Shows category variety, strongest category, and top category pass rates.
     *   **Estimated Savings:** Calculates money saved by not buying junk food or eating out.
     *   **Raw Log:** Expandable chronological session history for debugging and review.
 *   **Accessibility Pass:** Theme toggles, timers, dashboard accordion controls, and decorative SVGs include improved screen-reader semantics.
