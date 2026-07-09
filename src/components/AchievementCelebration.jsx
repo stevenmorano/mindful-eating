@@ -35,12 +35,14 @@ export default function AchievementCelebration({ achievement, total, onDismiss }
                 aria-label="Dismiss achievement celebration"
             />
             <div className="achievement-celebration-card" role="dialog" aria-modal="false">
-                <span className="achievement-celebration-kicker">Achievement unlocked</span>
-                {total > 1 && (
-                    <span className="achievement-celebration-count">
-                        {total - 1} more queued
-                    </span>
-                )}
+                <div className="achievement-celebration-badges">
+                    <span className="achievement-celebration-kicker">Achievement unlocked</span>
+                    {total > 1 && (
+                        <span className="achievement-celebration-count">
+                            {total - 1} more queued
+                        </span>
+                    )}
+                </div>
                 <div className="achievement-celebration-icon">{achievement.icon}</div>
                 <h2>{achievement.title}</h2>
                 <p>{achievement.description}</p>

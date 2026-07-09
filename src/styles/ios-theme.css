@@ -1168,6 +1168,17 @@ p {
   pointer-events: none;
 }
 
+.achievement-celebration-badges {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 26px;
+}
+
 .achievement-celebration-kicker,
 .achievement-celebration-count {
   display: inline-flex;
@@ -1184,23 +1195,12 @@ p {
   font-weight: 800;
 }
 
-.achievement-celebration-kicker {
-  position: relative;
-  z-index: 1;
-}
-
-.achievement-celebration-count {
-  position: absolute;
-  top: 18px;
-  right: 18px;
-}
-
 .achievement-celebration-icon {
   position: relative;
   z-index: 1;
   width: 84px;
   height: 84px;
-  margin: 18px auto 18px;
+  margin: 24px auto 18px;
   border-radius: 24px;
   background: var(--mm-accent-primary);
   color: white;
