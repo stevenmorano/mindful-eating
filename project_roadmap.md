@@ -71,8 +71,12 @@ This document serves as the central tracking checklist for the "STOP! DON'T EAT!
 - [x] Add bounded local personalization storage with malformed-data protection
 - [x] Add local Private Tools unlock for testing personalization before payments or accounts
 - [x] Add custom activity creation, deletion, and per-activity timer defaults
+- [x] Add custom activity category assignment and Mine grouping
 - [x] Add hide, favorite, and activity-weighting controls for built-in and custom activities
 - [x] Add 1–60 minute timer bounds with 2, 5, 10, 15, and 20 minute presets
+- [x] Collapse timer adjustment controls until requested and keep the primary timer action clear
+- [x] Raise mobile form controls to 48px and preference controls to at least 44px
+- [x] Wrap narrow-screen preference rows without horizontal overflow
 - [x] Apply personalization to random activity selection while preserving unlimited free rerolls
 - [x] Explain category fallback when all activities in a category are hidden
 - [x] Verify the toolkit and restored free flow with a visible mobile Playwright smoke test
@@ -83,7 +87,7 @@ This document serves as the central tracking checklist for the "STOP! DON'T EAT!
 - [ ] Evaluate non-interruptive revenue options, such as optional personalization upgrades, before considering advertising
 - [ ] Optional persistent analytics or sync strategy
 - [x] Optional category-level dashboard insights
-- [ ] Design optional personalization: custom activities, hiding controls, favorites, and flexible pause lengths
+- [x] Design and locally validate optional personalization: custom activities, hiding controls, favorites, and flexible pause lengths
 - [ ] Decide the free allowance for hiding built-in activities and categories
-- [ ] Define flexible timer presets and per-custom-activity timer behavior
+- [x] Define and locally validate flexible timer presets and per-custom-activity timer behavior
 - [ ] Optional automated test suite for core flows

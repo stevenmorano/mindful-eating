@@ -27,6 +27,7 @@ If you spend just 5 minutes engaged in a different activity, the immediate urge 
 *   **iOS Standalone Layout Support:** The app shell accounts for iPhone safe areas and standalone web-app viewport behavior.
 *   **Dev Mode & Private QA Tools:** A password-locked panel provides the five-second timer shortcut, loads or clears sample dashboard progress, scans for newly unlocked achievements, resets seen-unlock state, and replays a scripted achievement popup sequence without changing real data.
 *   **Personal Pause Toolkit (local QA):** Private Tools can temporarily unlock custom activities, hidden/favorite preferences, activity weighting, and 1–60 minute timer presets for testing before payment, accounts, or sync are introduced.
+*   **Mobile Toolkit Polish:** Personal activity forms use phone-sized touch targets, category assignment, a collapsed timer adjustment control, and wrapped preference rows that avoid horizontal overflow.
 
 ## Product Direction
 
@@ -68,6 +69,7 @@ The first planned paid bundle is the Personal Pause Toolkit: custom activities, 
 *   `src/data/activities.js` includes inactive `customActivityIdeas` and `emergencyActivities` lists for future personalization/emergency expansion.
 *   Theme preference is stored under `mm-theme`.
 *   The app now guards malformed local storage data and falls back to empty arrays instead of crashing.
+*   The latest mobile QA also checks 48px selects, 44px preference controls, category assignment, Mine grouping, collapsed timer adjustment, and narrow-screen overflow.
 
 ## Validation Checklist
 

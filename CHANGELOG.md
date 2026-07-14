@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-07-13 - Mobile Personalization Polish
+
+### Improved
+* Added category assignment when creating personal activities, with Mine grouping for quick access to all custom ideas.
+* Reworked the paid-toolkit timer control into a collapsed adjustment row so the primary timer action is not crowded.
+* Increased mobile select and preference hit areas and wrapped saved-activity controls to prevent narrow-screen horizontal overflow.
+
+### Verified
+* Visible mobile Playwright QA and screenshot review covered category persistence, Mine grouping, 48px selects, 44px preference controls, collapsed timer adjustment, and overflow-free custom activity rows.
+
 ## 2026-07-13 - Personal Pause Toolkit QA
 
 ### Added

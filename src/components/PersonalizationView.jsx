@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getActivities, getActivityCategories, getActivityId } from '../data/activities';
+import { categoryMeta, getActivities, getActivityCategories, getActivityId } from '../data/activities';
 import {
   createCustomActivity,
   getPersonalization,
@@ -32,10 +32,12 @@ function Header({ onClose, isDark, toggleTheme }) {
 export default function PersonalizationView({ isEnabled, onClose, isDark, toggleTheme }) {
   const [personalization, setPersonalization] = useState(() => getPersonalization());
   const [newActivity, setNewActivity] = useState('');
+  const [newActivityCategory, setNewActivityCategory] = useState('Custom');
   const [newActivityDuration, setNewActivityDuration] = useState(5);
   const [selectedCategory, setSelectedCategory] = useState('Movement');
   const [error, setError] = useState('');
   const categories = getActivityCategories();
+  const customActivityCategories = [{ category: 'Custom', label: 'My Ideas' }, ...categories];
   const hiddenIds = new Set(personalization.hiddenActivityIds);
   const favoriteIds = new Set(personalization.favoriteActivityIds);
   const categoryActivities = getActivities().filter(activity => activity.category === selectedCategory);
@@ -46,7 +48,11 @@ export default function PersonalizationView({ isEnabled, onClose, isDark, toggle
 
   const addActivity = (event) => {
     event.preventDefault();
-    const next = createCustomActivity({ text: newActivity, defaultDurationMinutes: newActivityDuration });
+    const next = createCustomActivity({
+      text: newActivity,
+      category: newActivityCategory,
+      defaultDurationMinutes: newActivityDuration,
+    });
     if (!next) {
       setError(`Add a short activity, up to ${MAX_ACTIVITY_TEXT_LENGTH} characters. You can save up to ${MAX_CUSTOM_ACTIVITIES}.`);
       return;
@@ -54,6 +60,7 @@ export default function PersonalizationView({ isEnabled, onClose, isDark, toggle
 
     setPersonalization(next);
     setNewActivity('');
+    setNewActivityCategory('Custom');
     setNewActivityDuration(5);
     setError('');
   };
@@ -110,8 +117,14 @@ export default function PersonalizationView({ isEnabled, onClose, isDark, toggle
               <input value={newActivity} maxLength={MAX_ACTIVITY_TEXT_LENGTH} onChange={(event) => setNewActivity(event.target.value)} placeholder="e.g. Put on my reset playlist" />
             </label>
             <label>
+              Category
+              <select className="toolkit-select" value={newActivityCategory} onChange={(event) => setNewActivityCategory(event.target.value)}>
+                {customActivityCategories.map(category => <option value={category.category} key={category.category}>{category.label}</option>)}
+              </select>
+            </label>
+            <label>
               Default pause length
-              <select value={newActivityDuration} onChange={(event) => setNewActivityDuration(event.target.value)}>
+              <select className="toolkit-select" value={newActivityDuration} onChange={(event) => setNewActivityDuration(event.target.value)}>
                 {TIMER_PRESETS.map(minutes => <option value={minutes} key={minutes}>{minutes} minutes</option>)}
               </select>
             </label>
@@ -122,13 +135,13 @@ export default function PersonalizationView({ isEnabled, onClose, isDark, toggle
             <div className="custom-activity-list">
               {personalization.customActivities.map(activity => (
                 <div className="custom-activity-row" key={activity.id}>
-                  <div><strong>{activity.text}</strong><span>{activity.defaultDurationMinutes} minute default</span></div>
-                  <label className="inline-select"><span className="sr-only">Default duration for {activity.text}</span><select value={activity.defaultDurationMinutes} onChange={(event) => setPersonalization(updateCustomActivity(activity.id, { defaultDurationMinutes: event.target.value }))}>{TIMER_PRESETS.map(minutes => <option value={minutes} key={minutes}>{minutes}m</option>)}</select></label>
+                  <div><strong>{activity.text}</strong><span>{categoryMeta[activity.category]?.label || 'My Ideas'} · {activity.defaultDurationMinutes} minute default</span></div>
+                  <label className="inline-select"><span className="sr-only">Default duration for {activity.text}</span><select className="toolkit-select" value={activity.defaultDurationMinutes} onChange={(event) => setPersonalization(updateCustomActivity(activity.id, { defaultDurationMinutes: event.target.value }))}>{TIMER_PRESETS.map(minutes => <option value={minutes} key={minutes}>{minutes}m</option>)}</select></label>
                   <button type="button" className="toolkit-text-button" onClick={() => setPersonalization(removeCustomActivity(activity.id))}>Remove</button>
                   <div className="preference-actions custom-preference-actions">
                     <button type="button" className={favoriteIds.has(activity.id) ? 'active' : ''} onClick={() => togglePreference(activity.id, 'favorite')} aria-pressed={favoriteIds.has(activity.id)}>{favoriteIds.has(activity.id) ? 'Favorited' : 'Favorite'}</button>
                     <button type="button" className={hiddenIds.has(activity.id) ? 'active muted' : ''} onClick={() => togglePreference(activity.id, 'hidden')} aria-pressed={hiddenIds.has(activity.id)}>{hiddenIds.has(activity.id) ? 'Hidden' : 'Hide'}</button>
-                    {favoriteIds.has(activity.id) && <label className="weight-select">Show it<select value={personalization.activityWeights[activity.id] || 3} onChange={(event) => setWeight(activity.id, event.target.value)}><option value="1">Less often</option><option value="3">Normally</option><option value="5">More often</option></select></label>}
+                    {favoriteIds.has(activity.id) && <label className="weight-select">Show it<select className="toolkit-select" value={personalization.activityWeights[activity.id] || 3} onChange={(event) => setWeight(activity.id, event.target.value)}><option value="1">Less often</option><option value="3">Normally</option><option value="5">More often</option></select></label>}
                   </div>
                 </div>
               ))}
@@ -138,7 +151,7 @@ export default function PersonalizationView({ isEnabled, onClose, isDark, toggle
 
         <section className="toolkit-section mm-card">
           <div className="toolkit-section-heading"><div><strong>Shape your suggestions</strong><span>Favorite ideas appear more often. Hidden ideas are skipped.</span></div></div>
-          <label className="activity-category-select">Browse a category<select value={selectedCategory} onChange={(event) => setSelectedCategory(event.target.value)}>{categories.map(category => <option value={category.category} key={category.category}>{category.label} ({category.count})</option>)}</select></label>
+          <label className="activity-category-select">Browse a category<select className="toolkit-select" value={selectedCategory} onChange={(event) => setSelectedCategory(event.target.value)}>{categories.map(category => <option value={category.category} key={category.category}>{category.label} ({category.count})</option>)}</select></label>
           <div className="preference-list">
             {categoryActivities.map(activity => {
               const activityId = getActivityId(activity);
@@ -151,7 +164,7 @@ export default function PersonalizationView({ isEnabled, onClose, isDark, toggle
                     <button type="button" className={isFavorite ? 'active' : ''} onClick={() => togglePreference(activityId, 'favorite')} aria-pressed={isFavorite}>{isFavorite ? 'Favorited' : 'Favorite'}</button>
                     <button type="button" className={isHidden ? 'active muted' : ''} onClick={() => togglePreference(activityId, 'hidden')} aria-pressed={isHidden}>{isHidden ? 'Hidden' : 'Hide'}</button>
                   </div>
-                  {isFavorite && <label className="weight-select">Show it<select value={personalization.activityWeights[activityId] || 3} onChange={(event) => setWeight(activityId, event.target.value)}><option value="1">Less often</option><option value="3">Normally</option><option value="5">More often</option></select></label>}
+                  {isFavorite && <label className="weight-select">Show it<select className="toolkit-select" value={personalization.activityWeights[activityId] || 3} onChange={(event) => setWeight(activityId, event.target.value)}><option value="1">Less often</option><option value="3">Normally</option><option value="5">More often</option></select></label>}
                 </div>
               );
             })}

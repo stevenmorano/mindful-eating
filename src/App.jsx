@@ -184,7 +184,11 @@ function App() {
     const allActivities = personalization
       ? [...getActivities(), ...personalization.customActivities]
       : getActivities();
-    const categoryActivities = category ? allActivities.filter(activity => activity.category === category) : allActivities;
+    const categoryActivities = category
+      ? category === 'Custom'
+        ? allActivities.filter(activity => activity.id?.startsWith('custom-'))
+        : allActivities.filter(activity => activity.category === category)
+      : allActivities;
     const hiddenIds = new Set(personalization?.hiddenActivityIds || []);
     const visibleCategoryActivities = categoryActivities.filter(activity => !hiddenIds.has(getActivityId(activity)));
     const visibleActivities = allActivities.filter(activity => !hiddenIds.has(getActivityId(activity)));
@@ -351,7 +355,7 @@ function App() {
           categories={isPersonalizationTestingEnabled && getPersonalization().customActivities.length > 0
             ? [...getActivityCategories(), { category: 'Custom', label: 'Mine', count: getPersonalization().customActivities.length }]
             : getActivityCategories()}
-          categoryMeta={categoryMeta[currentActivity?.category]}
+          categoryMeta={categoryMeta[selectedCategory || currentActivity?.category]}
           selectedCategory={selectedCategory}
           onSelectCategory={handleSelectCategory}
           onStartTimer={handleStartTimer}

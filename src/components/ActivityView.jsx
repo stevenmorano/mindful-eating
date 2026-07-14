@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export default function ActivityView({
     activity,
@@ -17,6 +17,7 @@ export default function ActivityView({
     isDark,
     toggleTheme
 }) {
+    const [isTimerOptionsOpen, setIsTimerOptionsOpen] = useState(false);
     if (!activity) return null;
 
     const activeLabel = selectedCategory ? categoryMeta?.label || activity.category : 'Any';
@@ -57,16 +58,22 @@ export default function ActivityView({
 
                 {canCustomizeTimer && (
                     <div className="timer-choice-panel" aria-label="Pause length">
-                        <span>Pause length</span>
-                        <div className="timer-preset-row">
-                            {[2, 5, 10, 15, 20].map(minutes => (
-                                <button type="button" key={minutes} className={durationMinutes === minutes ? 'active' : ''} onClick={() => onDurationChange(minutes)} aria-pressed={durationMinutes === minutes}>{minutes}m</button>
-                            ))}
-                            <label>
-                                <span className="sr-only">Custom pause length in minutes</span>
+                        <button type="button" className="timer-length-summary" onClick={() => setIsTimerOptionsOpen(open => !open)} aria-expanded={isTimerOptionsOpen}>
+                            <span>Pause length</span>
+                            <strong>{durationMinutes} {durationMinutes === 1 ? 'minute' : 'minutes'}</strong>
+                            <em>{isTimerOptionsOpen ? 'Done' : 'Adjust'}</em>
+                        </button>
+                        {isTimerOptionsOpen && <div className="timer-length-options">
+                            <div className="timer-preset-row">
+                                {[2, 5, 10, 15, 20].map(minutes => (
+                                    <button type="button" key={minutes} className={durationMinutes === minutes ? 'active' : ''} onClick={() => onDurationChange(minutes)} aria-pressed={durationMinutes === minutes}>{minutes} min</button>
+                                ))}
+                            </div>
+                            <label className="timer-custom-input">
+                                Custom minutes
                                 <input type="number" min="1" max="60" value={durationMinutes} onChange={(event) => onDurationChange(event.target.value)} aria-label="Custom pause length in minutes" />
                             </label>
-                        </div>
+                        </div>}
                     </div>
                 )}
 

@@ -1,3 +1,5 @@
+import { categoryMeta } from './activities';
+
 const PERSONALIZATION_KEY = 'mm-personalization';
 
 export const MAX_CUSTOM_ACTIVITIES = 100;
@@ -54,12 +56,15 @@ function sanitizeCustomActivity(activity) {
 
   const text = normalizeText(activity.text);
   const id = typeof activity.id === 'string' && activity.id.length <= 100 ? activity.id : null;
+  const category = typeof activity.category === 'string' && categoryMeta[activity.category]
+    ? activity.category
+    : 'Custom';
   if (!id || !text || text.length > MAX_ACTIVITY_TEXT_LENGTH) return null;
 
   return {
     id,
     text,
-    category: 'Custom',
+    category,
     defaultDurationMinutes: normalizeMinutes(activity.defaultDurationMinutes),
     createdAt: typeof activity.createdAt === 'string' ? activity.createdAt : null,
   };
@@ -98,7 +103,7 @@ export function savePersonalization(nextPersonalization) {
   return sanitized;
 }
 
-export function createCustomActivity({ text, defaultDurationMinutes = 5 }) {
+export function createCustomActivity({ text, category = 'Custom', defaultDurationMinutes = 5 }) {
   const current = getPersonalization();
   const normalizedText = normalizeText(text);
 
@@ -109,7 +114,7 @@ export function createCustomActivity({ text, defaultDurationMinutes = 5 }) {
   const activity = {
     id: `custom-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
     text: normalizedText,
-    category: 'Custom',
+    category: categoryMeta[category] ? category : 'Custom',
     defaultDurationMinutes: normalizeMinutes(defaultDurationMinutes),
     createdAt: new Date().toISOString(),
   };
@@ -128,6 +133,9 @@ export function updateCustomActivity(id, updates) {
     return {
       ...activity,
       text,
+      category: updates.category === undefined || !categoryMeta[updates.category]
+        ? activity.category
+        : updates.category,
       defaultDurationMinutes: updates.defaultDurationMinutes === undefined
         ? activity.defaultDurationMinutes
         : normalizeMinutes(updates.defaultDurationMinutes),
