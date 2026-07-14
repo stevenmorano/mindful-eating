@@ -41,10 +41,13 @@ STOP! DON'T EAT! is a mobile-first web application designed to help users manage
 ## 6. MVP Decisions Log
 *   **Target Audience:** Focus primarily on boredom eaters (WFH, ADHD) who need a quick dopamine distraction.
 *   **Timer Duration:** Default the timer to 5 minutes instead of 10 minutes, as shorter bursts are more achievable and often sufficient to break the cycle.
-*   **Monetization & Distraction:** The app will be monetized via ads. During the 5-minute countdown timer, ads will play on the screen while the user performs the suggested external activity (from the curated list). This ensures the user is distracted by the activity while the app still gets credit for ad impressions.
+*   **Monetization & Trust:** Timer ads are not an MVP commitment. Asking users to leave the screen while an ad plays is a poor fit for ad-quality and viewability expectations, can produce weak revenue, and risks turning a moment of self-support into an intrusive experience. Any future advertising must be evaluated carefully for network policy, content safety, and its effect on user trust; it must not interrupt the active craving-pause flow.
 *   **Category Selection:** Keep the home screen focused on the large random action, then expose category steering as compact chips on the suggestion screen.
 *   **Emergency Naming:** Rename the former SOS path to Emergency Breathing so users understand it starts a guided 5-minute box-breathing reset.
-*   **Custom Activities:** Keep custom activity ideas parked behind a future paywall feature; do not surface them in the active app flow until that feature is designed.
+*   **Free Core:** Keep the essential support path free: random starts, category steering, Emergency Breathing, the standard 5-minute pause, mindful snack unlocks, and basic history.
+*   **Personalization Upgrades:** Future optional paid features can focus on user control rather than withholding help. Candidates include custom activities, unlimited hiding of unwanted built-in activities or categories, favorites and priority weighting, custom pause lengths, per-custom-activity timer lengths, category-level timer defaults, richer insights, reminders, themes, and optional sync.
+*   **Timer Guardrails:** The default 5-minute pause remains the product's simplest, most approachable path. Flexible presets such as 2, 5, 10, 15, and 20 minutes can be offered as an optional deeper-reset capability; custom activities may carry their own timer length.
+*   **Custom Activities:** Keep the existing custom-activity ideas parked until the personalization experience is designed, including activity creation, editing, hiding, favorite selection, and timer controls.
 *   **App Icon:** Use the custom dark STOP pause icon as the current PWA/favicon asset.
 
 ## 7. Verified Smoke-Test Coverage

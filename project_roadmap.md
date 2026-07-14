@@ -15,13 +15,13 @@ This document serves as the central tracking checklist for the "STOP! DON'T EAT!
 ## Phase 2: MVP Definition & Planning (Completed)
 - [x] Define precise target audience (Boredom eating / ADHD / WFH)
 - [x] Finalize ideal timer duration logic (Default to 5 minutes)
-- [x] Finalize dopamine-seeking activity types (Ads during countdown)
+- [x] Define dopamine-seeking activity types and assess the timer-ad concept (not selected for MVP)
 - [x] Brainstorm and define MVP scope
 - [x] Create detailed task checklist based on MVP scope
 
 ## Phase 3: MVP Implementation (Completed)
 - [x] Modify `TimerView.jsx` to default to 5 minutes (300 seconds).
-- [x] Implement Ad placeholders / integration in `TimerView.jsx` to display alongside the countdown timer.
+- [x] Keep the timer surface focused on the pause activity; do not make timer advertising part of the MVP.
 - [x] Explore / implement Screen Wake Lock API to prevent the phone from sleeping during the 5-minute ad/timer.
 - [x] Update `HistoryView.jsx` or any logic relying on the hardcoded 10-minute value to use the new 5-minute baseline.
 
@@ -67,8 +67,11 @@ This document serves as the central tracking checklist for the "STOP! DON'T EAT!
 
 ## Phase 8: Finalization (Upcoming)
 - [ ] Final production deployment
-- [ ] Real ad integration decision and implementation
+- [ ] Define a monetization model that protects the active craving-pause experience
+- [ ] Evaluate non-interruptive revenue options, such as optional personalization upgrades, before considering advertising
 - [ ] Optional persistent analytics or sync strategy
 - [x] Optional category-level dashboard insights
-- [ ] Optional custom activity paywall design and implementation
+- [ ] Design optional personalization: custom activities, hiding controls, favorites, and flexible pause lengths
+- [ ] Decide the free allowance for hiding built-in activities and categories
+- [ ] Define flexible timer presets and per-custom-activity timer behavior
 - [ ] Optional automated test suite for core flows

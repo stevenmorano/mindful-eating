@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-07-13 - Product Direction Update
+
+### Changed
+* Reframed monetization around optional personalization rather than timer ads.
+* Marked timer advertising as an unresolved, high-trust decision rather than a committed MVP feature.
+* Defined a generous free core: random pauses, category steering, Emergency Breathing, the standard 5-minute timer, mindful snack unlocks, and basic history.
+
+### Planned
+* Explore optional custom activities, hiding and favoriting controls, flexible timer lengths, deeper insights, reminders, themes, and sync.
+* Keep flexible timer lengths centered on the standard 5-minute default, with optional deeper-reset presets and per-custom-activity durations.
+
 ## 2026-07-08 - Category-Aware Pause Selection
 
 ### Added

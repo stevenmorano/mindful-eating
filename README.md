@@ -28,6 +28,12 @@ If you spend just 5 minutes engaged in a different activity, the immediate urge 
 *   **Dev Mode:** A local storage toggle speeds up 5-minute timers to 5 seconds for rapid UI/UX testing.
 *   **Private QA Tools:** A password-locked panel hides the timer shortcut and adds sample-progress controls for testing achievement popups and dashboard states.
 
+## Product Direction
+
+The core pause experience is intended to remain free: random starts, category steering, Emergency Breathing, the standard 5-minute pause, mindful snack unlocks, and basic history should not require payment. Future paid features should add personalization rather than restrict help at the moment of a craving.
+
+Potential optional upgrades include custom activities, expanded hiding and favoriting controls, custom pause lengths, per-activity timer lengths, category timer defaults, deeper insights, reminders, themes, and optional sync. Timer ads are not a committed feature: an ad experience during a craving pause could undermine trust and may be difficult to monetize reliably if people are intentionally away from the screen.
+
 ## Tech Stack
 *   **Frontend:** React, Vite
 *   **Styling:** Custom CSS (built for mobile-first responsiveness)
@@ -57,7 +63,7 @@ If you spend just 5 minutes engaged in a different activity, the immediate urge 
 *   Session data is stored in `localStorage` under `mindful_eating_sessions`.
 *   New sessions include `activityCategory` for future category-level stats and history features.
 *   Custom activity storage still uses `localStorage` under `mm-custom-activities`, but custom activity UI is intentionally not active yet.
-*   `src/data/activities.js` includes inactive `customActivityIdeas` and `emergencyActivities` lists for future paywall/emergency expansion.
+*   `src/data/activities.js` includes inactive `customActivityIdeas` and `emergencyActivities` lists for future personalization/emergency expansion.
 *   Theme preference is stored under `mm-theme`.
 *   The app now guards malformed local storage data and falls back to empty arrays instead of crashing.
 
