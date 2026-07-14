@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-07-13 - Personal Pause Toolkit QA
+
+### Added
+* Added a local QA-only Personal Pause Toolkit for testing custom activities, hidden and favorite preferences, activity weighting, per-activity timer defaults, and bounded timer presets.
+* Added safe local personalization storage with limits of 100 custom activities, 160 characters per activity, and 1–60 minute timers.
+* Added personalized random selection with custom activities, category-aware fallback messaging, and unlimited free built-in rerolls.
+
+### Verified
+* Visible mobile Playwright smoke test covered the locked preview, Private Tools unlock, custom activity creation, favorites, hidden-category fallback, Mine category, timer presets, five-second QA timer, and restored free flow.
+
+### Deferred
+* Payment processing, production entitlements, accounts, server-side security, and sync remain deferred until the local toolkit is validated.
+
 ## 2026-07-13 - Product Direction Update
 
 ### Changed

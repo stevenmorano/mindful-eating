@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function HomeView({ onStart, onEmergency, onViewHistory, onOpenDevTools, isDevToolsUnlocked, isDark, toggleTheme }) {
+export default function HomeView({ onStart, onEmergency, onViewHistory, onOpenPersonalization, onOpenDevTools, isDevToolsUnlocked, isDark, toggleTheme }) {
     return (
         <div className="view home-view">
             <div className="view-header">
@@ -54,6 +54,9 @@ export default function HomeView({ onStart, onEmergency, onViewHistory, onOpenDe
 
                 <button type="button" className="emergency-pill-btn" onClick={onEmergency}>
                     Emergency Breathing
+                </button>
+                <button type="button" className="personalization-link" onClick={onOpenPersonalization}>
+                    Make this pause yours
                 </button>
             </div>
         </div>

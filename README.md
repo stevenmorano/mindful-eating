@@ -26,12 +26,13 @@ If you spend just 5 minutes engaged in a different activity, the immediate urge 
 *   **PWA Branding:** App shell and manifest use a custom dark STOP pause icon instead of Vite starter assets.
 *   **iOS Standalone Layout Support:** The app shell accounts for iPhone safe areas and standalone web-app viewport behavior.
 *   **Dev Mode & Private QA Tools:** A password-locked panel provides the five-second timer shortcut, loads or clears sample dashboard progress, scans for newly unlocked achievements, resets seen-unlock state, and replays a scripted achievement popup sequence without changing real data.
+*   **Personal Pause Toolkit (local QA):** Private Tools can temporarily unlock custom activities, hidden/favorite preferences, activity weighting, and 1–60 minute timer presets for testing before payment, accounts, or sync are introduced.
 
 ## Product Direction
 
 The core pause experience is intended to remain free: random starts, category steering, Emergency Breathing, the standard 5-minute pause, mindful snack unlocks, and basic history should not require payment. Future paid features should add personalization rather than restrict help at the moment of a craving.
 
-Potential optional upgrades include custom activities, expanded hiding and favoriting controls, custom pause lengths, per-activity timer lengths, category timer defaults, deeper insights, reminders, themes, and optional sync. Timer ads are not a committed feature: an ad experience during a craving pause could undermine trust and may be difficult to monetize reliably if people are intentionally away from the screen.
+The first planned paid bundle is the Personal Pause Toolkit: custom activities, hiding and favoriting controls, activity weighting, per-activity timer lengths, and bounded timer presets. The current implementation is a local QA-only unlock; it does not represent a payment entitlement. Payment, accounts, server-side security, and sync remain deferred until the toolkit is validated with real users. Later options include category timer defaults, deeper insights, reminders, themes, and optional sync. Timer ads are not a committed feature: an ad experience during a craving pause could undermine trust and may be difficult to monetize reliably if people are intentionally away from the screen.
 
 ## Tech Stack
 *   **Frontend:** React, Vite
@@ -61,7 +62,9 @@ Potential optional upgrades include custom activities, expanded hiding and favor
 *   Unlock **Private Tools** from the home screen to enable the five-second Dev Mode timer, load sample progress, inspect achievement behavior, or replay popup demos.
 *   Session data is stored in `localStorage` under `mindful_eating_sessions`.
 *   New sessions include `activityCategory` for future category-level stats and history features.
-*   Custom activity storage still uses `localStorage` under `mm-custom-activities`, but custom activity UI is intentionally not active yet.
+*   The older `mm-custom-activities` storage key remains for compatibility; the active Personal Pause Toolkit stores validated personalization data under `mm-personalization`.
+*   Personalization QA data is stored under `mm-personalization`; the Private Tools personalization toggle is local-only and temporary for development testing.
+*   Personalization limits are 100 custom activities, 160 characters per activity, and 1–60 minutes per custom timer. Stored preferences are sanitized and malformed data is discarded safely.
 *   `src/data/activities.js` includes inactive `customActivityIdeas` and `emergencyActivities` lists for future personalization/emergency expansion.
 *   Theme preference is stored under `mm-theme`.
 *   The app now guards malformed local storage data and falls back to empty arrays instead of crashing.

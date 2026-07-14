@@ -2,6 +2,7 @@ const DEV_TOOLS_UNLOCK_KEY = 'mm-dev-tools-unlocked';
 const QA_DEMO_ENABLED_KEY = 'mm-qa-demo-enabled';
 const QA_DEMO_SESSIONS_KEY = 'mm-qa-demo-sessions';
 const QA_DEMO_SEEN_KEY = 'mm-qa-demo-seen';
+const QA_PERSONALIZATION_ENABLED_KEY = 'mm-qa-personalization-enabled';
 const PASSWORD_HASH = 'c992a75a9bd039974af63511b42aaf837f25a0dce55c6654a359402f6e4327d2';
 const PASSWORD_SALT = 'MindfulEating.QA.v1';
 
@@ -94,6 +95,14 @@ export function setDemoSeenAchievementIds(ids) {
 
 export function clearDemoSeenAchievementIds() {
     removeStorageValue(localStorage, QA_DEMO_SEEN_KEY);
+}
+
+export function getPersonalizationTestingEnabled() {
+    return getStorageValue(localStorage, QA_PERSONALIZATION_ENABLED_KEY, 'false') === 'true';
+}
+
+export function setPersonalizationTestingEnabled(isEnabled) {
+    setStorageValue(localStorage, QA_PERSONALIZATION_ENABLED_KEY, isEnabled ? 'true' : 'false');
 }
 
 export function buildDemoSessions() {

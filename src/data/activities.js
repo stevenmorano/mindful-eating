@@ -684,9 +684,16 @@ export const categoryMeta = {
     description: "Change the room",
     icon: "environment",
   },
+  Custom: {
+    label: 'Mine',
+    description: 'Your saved ideas',
+    icon: 'custom',
+  },
 };
 
 export const getActivities = () => defaultActivities;
+
+export const getActivityId = (activity) => activity?.id || `built-in:${activity?.category || 'unknown'}:${activity?.text || 'unknown'}`;
 
 export const getActivityCategories = () => {
   const counts = getActivities().reduce((acc, activity) => {

@@ -67,7 +67,17 @@ This document serves as the central tracking checklist for the "STOP! DON'T EAT!
 - [x] Park Custom and Emergency idea lists for future paid/emergency features
 - [x] Refresh app icon with a darker STOP pause mark
 
-## Phase 8: Finalization (Upcoming)
+## Phase 8: Personal Pause Toolkit QA (Completed)
+- [x] Add bounded local personalization storage with malformed-data protection
+- [x] Add local Private Tools unlock for testing personalization before payments or accounts
+- [x] Add custom activity creation, deletion, and per-activity timer defaults
+- [x] Add hide, favorite, and activity-weighting controls for built-in and custom activities
+- [x] Add 1–60 minute timer bounds with 2, 5, 10, 15, and 20 minute presets
+- [x] Apply personalization to random activity selection while preserving unlimited free rerolls
+- [x] Explain category fallback when all activities in a category are hidden
+- [x] Verify the toolkit and restored free flow with a visible mobile Playwright smoke test
+
+## Phase 9: Finalization (Upcoming)
 - [ ] Final production deployment
 - [ ] Define a monetization model that protects the active craving-pause experience
 - [ ] Evaluate non-interruptive revenue options, such as optional personalization upgrades, before considering advertising

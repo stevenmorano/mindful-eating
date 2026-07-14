@@ -9,6 +9,11 @@ export default function ActivityView({
     onStartTimer,
     onNewActivity,
     onCancel,
+    durationMinutes,
+    onDurationChange,
+    canCustomizeTimer,
+    selectionNotice,
+    isDevMode,
     isDark,
     toggleTheme
 }) {
@@ -48,9 +53,26 @@ export default function ActivityView({
                     <h2>{activity.text}</h2>
                 </div>
 
+                {selectionNotice && <p className="activity-selection-notice" role="status">{selectionNotice}</p>}
+
+                {canCustomizeTimer && (
+                    <div className="timer-choice-panel" aria-label="Pause length">
+                        <span>Pause length</span>
+                        <div className="timer-preset-row">
+                            {[2, 5, 10, 15, 20].map(minutes => (
+                                <button type="button" key={minutes} className={durationMinutes === minutes ? 'active' : ''} onClick={() => onDurationChange(minutes)} aria-pressed={durationMinutes === minutes}>{minutes}m</button>
+                            ))}
+                            <label>
+                                <span className="sr-only">Custom pause length in minutes</span>
+                                <input type="number" min="1" max="60" value={durationMinutes} onChange={(event) => onDurationChange(event.target.value)} aria-label="Custom pause length in minutes" />
+                            </label>
+                        </div>
+                    </div>
+                )}
+
                 <div className="activity-actions">
                     <button type="button" className="mm-btn primary-solid" onClick={onStartTimer}>
-                        Begin 5-Minute Timer
+                        {isDevMode ? 'Begin 5-Second Test Timer' : `Begin ${durationMinutes}-Minute Timer`}
                     </button>
                     <button type="button" className="mm-btn secondary" onClick={onNewActivity}>
                         Generate another idea

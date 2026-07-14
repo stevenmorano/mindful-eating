@@ -4,6 +4,7 @@ export default function DevToolsModal({
     isOpen,
     isUnlocked,
     isDevMode,
+    isPersonalizationTestingEnabled,
     passwordValue,
     passwordError,
     isDemoProgressEnabled,
@@ -11,6 +12,7 @@ export default function DevToolsModal({
     onPasswordSubmit,
     onClose,
     onToggleDevMode,
+    onTogglePersonalizationTesting,
     onLoadDemoProgress,
     onClearDemoProgress,
     onScanAchievements,
@@ -82,6 +84,18 @@ export default function DevToolsModal({
                                 </div>
                                 <button type="button" className={`mm-btn ${isDevMode ? 'primary-solid' : ''}`} onClick={onToggleDevMode}>
                                     {isDevMode ? 'Enabled' : 'Enable'}
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="dev-tools-section">
+                            <div className="dev-tools-row">
+                                <div>
+                                    <strong>Personalization toolkit</strong>
+                                    <span>Temporarily unlock paid personalization features for local QA.</span>
+                                </div>
+                                <button type="button" className={`mm-btn ${isPersonalizationTestingEnabled ? 'primary-solid' : ''}`} onClick={onTogglePersonalizationTesting}>
+                                    {isPersonalizationTestingEnabled ? 'Enabled' : 'Enable'}
                                 </button>
                             </div>
                         </div>

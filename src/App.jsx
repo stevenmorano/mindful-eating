@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getActivities, getActivityCategories, categoryMeta } from './data/activities';
+import { getActivityId } from './data/activities';
+import { getPersonalization, MAX_TIMER_MINUTES, MIN_TIMER_MINUTES } from './data/personalization';
 import { createSession, updateSession, getRealSessions, getSessions } from './data/sessions';
 import {
   getAchievementStats,
@@ -16,9 +18,11 @@ import {
   getDevToolsUnlocked,
   clearDemoSeenAchievementIds,
   getDemoSeenAchievementIds,
+  getPersonalizationTestingEnabled,
   setDemoProgressEnabled,
   setDemoSessions,
   setDemoSeenAchievementIds,
+  setPersonalizationTestingEnabled,
   setDevToolsUnlocked,
   verifyDevToolsPassword,
 } from './data/dev-tools';
@@ -29,6 +33,7 @@ import DecisionView from './components/DecisionView';
 import HistoryView from './components/HistoryView';
 import AchievementCelebration from './components/AchievementCelebration';
 import DevToolsModal from './components/DevToolsModal';
+import PersonalizationView from './components/PersonalizationView';
 
 function App() {
   const [view, setView] = useState('home'); // home, activity, timer, decision, history
@@ -36,12 +41,15 @@ function App() {
   const [currentSessionId, setCurrentSessionId] = useState(null);
   const [pauseRound, setPauseRound] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [currentTimerDurationMinutes, setCurrentTimerDurationMinutes] = useState(5);
+  const [activitySelectionNotice, setActivitySelectionNotice] = useState('');
   const [achievementQueue, setAchievementQueue] = useState([]);
   const [isDevToolsUnlocked, setIsDevToolsUnlockedState] = useState(() => getDevToolsUnlocked());
   const [isDevToolsOpen, setIsDevToolsOpen] = useState(false);
   const [devToolsPassword, setDevToolsPassword] = useState('');
   const [devToolsError, setDevToolsError] = useState('');
   const [isDemoProgressEnabled, setIsDemoProgressEnabled] = useState(() => getDemoProgressEnabled());
+  const [isPersonalizationTestingEnabled, setIsPersonalizationTestingEnabledState] = useState(() => getPersonalizationTestingEnabled());
 
   // Dev mode state
   const [isDevMode, setIsDevMode] = useState(() => {
@@ -172,20 +180,47 @@ function App() {
   };
 
   const getRandomActivity = (category = null) => {
-    const allActivities = getActivities();
-    const availableActivities = category
-      ? allActivities.filter(activity => activity.category === category)
-      : allActivities;
-    const activityPool = availableActivities.length > 0 ? availableActivities : allActivities;
-    const randomIndex = Math.floor(Math.random() * activityPool.length);
-    return activityPool[randomIndex];
+    const personalization = isPersonalizationTestingEnabled ? getPersonalization() : null;
+    const allActivities = personalization
+      ? [...getActivities(), ...personalization.customActivities]
+      : getActivities();
+    const categoryActivities = category ? allActivities.filter(activity => activity.category === category) : allActivities;
+    const hiddenIds = new Set(personalization?.hiddenActivityIds || []);
+    const visibleCategoryActivities = categoryActivities.filter(activity => !hiddenIds.has(getActivityId(activity)));
+    const visibleActivities = allActivities.filter(activity => !hiddenIds.has(getActivityId(activity)));
+    let activityPool = visibleCategoryActivities;
+    let notice = '';
+
+    if (activityPool.length === 0 && categoryActivities.length > 0) {
+      activityPool = categoryActivities;
+      notice = 'Everything in this category is hidden, so this suggestion is shown as a backup.';
+    } else if (activityPool.length === 0) {
+      activityPool = visibleActivities.length > 0 ? visibleActivities : allActivities;
+      notice = 'That category is unavailable right now, so here is another pause idea.';
+    }
+
+    const weightedPool = activityPool.flatMap(activity => {
+      const activityId = getActivityId(activity);
+      const isFavorite = personalization?.favoriteActivityIds.includes(activityId);
+      const weight = isFavorite ? personalization.activityWeights[activityId] || 3 : 1;
+      return Array.from({ length: weight }, () => activity);
+    });
+    const chosenActivity = weightedPool[Math.floor(Math.random() * weightedPool.length)] || null;
+    return { activity: chosenActivity, notice };
+  };
+
+  const selectRandomActivity = (category) => {
+    const { activity, notice } = getRandomActivity(category);
+    setCurrentActivity(activity);
+    setCurrentTimerDurationMinutes(activity?.defaultDurationMinutes || 5);
+    setActivitySelectionNotice(notice);
   };
 
   const handleStart = (category = null) => {
     setPauseRound(1);
     setCurrentSessionId(null);
     setSelectedCategory(category);
-    setCurrentActivity(getRandomActivity(category));
+    selectRandomActivity(category);
     setView('activity');
   };
 
@@ -193,6 +228,8 @@ function App() {
     setPauseRound(1);
     setSelectedCategory('Emergency');
     setCurrentActivity({ text: "Guided Breathing (4-4-4-4): Inhale 4s, Hold 4s, Exhale 4s, Hold 4s", category: "Emergency" });
+    setCurrentTimerDurationMinutes(5);
+    setActivitySelectionNotice('');
     const session = createSession({
       activityTitle: "Emergency Breathing",
       activityCategory: "Emergency",
@@ -204,19 +241,19 @@ function App() {
   };
 
   const handleNewActivity = () => {
-    setCurrentActivity(getRandomActivity(selectedCategory));
+    selectRandomActivity(selectedCategory);
   };
 
   const handleSelectCategory = (category) => {
     setSelectedCategory(category);
-    setCurrentActivity(getRandomActivity(category));
+    selectRandomActivity(category);
   };
 
   const handleStartTimer = () => {
     const session = createSession({
       activityTitle: currentActivity.text,
       activityCategory: currentActivity.category,
-      activityDurationMinutes: 5,
+      activityDurationMinutes: currentTimerDurationMinutes,
       pauseRound,
     });
     setCurrentSessionId(session.id);
@@ -239,6 +276,8 @@ function App() {
     setCurrentSessionId(null);
     setPauseRound(1);
     setSelectedCategory(null);
+    setCurrentTimerDurationMinutes(5);
+    setActivitySelectionNotice('');
   };
 
   const handleDecision = (stillHungry) => {
@@ -251,6 +290,8 @@ function App() {
     setCurrentSessionId(null);
     setPauseRound(1);
     setSelectedCategory(null);
+    setCurrentTimerDurationMinutes(5);
+    setActivitySelectionNotice('');
   };
 
   const handleReset = () => {
@@ -259,6 +300,8 @@ function App() {
     setCurrentSessionId(null);
     setPauseRound(1);
     setSelectedCategory(null);
+    setCurrentTimerDurationMinutes(5);
+    setActivitySelectionNotice('');
   };
 
   const handleExtendPause = () => {
@@ -267,12 +310,20 @@ function App() {
     }
     setCurrentSessionId(null);
     setPauseRound(2);
-    setCurrentActivity(getRandomActivity(selectedCategory));
+    selectRandomActivity(selectedCategory);
     setView('activity');
   };
 
   const handleViewHistory = () => {
     setView('history');
+  };
+
+  const handleOpenPersonalization = () => {
+    setView('personalization');
+  };
+
+  const handleClosePersonalization = () => {
+    setView('home');
   };
 
   const handleCloseHistory = () => {
@@ -286,6 +337,7 @@ function App() {
             onStart={handleStart} 
             onEmergency={handleEmergencyStart}
             onViewHistory={handleViewHistory} 
+            onOpenPersonalization={handleOpenPersonalization}
             onOpenDevTools={handleOpenDevTools}
             isDevToolsUnlocked={isDevToolsUnlocked}
             isDark={isDark} 
@@ -296,20 +348,27 @@ function App() {
       {view === 'activity' && (
         <ActivityView
           activity={currentActivity}
-          categories={getActivityCategories()}
+          categories={isPersonalizationTestingEnabled && getPersonalization().customActivities.length > 0
+            ? [...getActivityCategories(), { category: 'Custom', label: 'Mine', count: getPersonalization().customActivities.length }]
+            : getActivityCategories()}
           categoryMeta={categoryMeta[currentActivity?.category]}
           selectedCategory={selectedCategory}
           onSelectCategory={handleSelectCategory}
           onStartTimer={handleStartTimer}
           onNewActivity={handleNewActivity}
-          onCancel={handleReset}
+            onCancel={handleReset}
+          durationMinutes={currentTimerDurationMinutes}
+          onDurationChange={(duration) => setCurrentTimerDurationMinutes(Math.min(MAX_TIMER_MINUTES, Math.max(MIN_TIMER_MINUTES, Number(duration) || 5)))}
+          canCustomizeTimer={isPersonalizationTestingEnabled}
+          selectionNotice={activitySelectionNotice}
+          isDevMode={isDevMode}
           isDark={isDark} toggleTheme={toggleTheme}
         />
       )}
 
       {view === 'timer' && (
         <TimerView
-          duration={isDevMode ? 5 : 300} // 5 seconds in dev mode, 5 minutes normally
+          duration={isDevMode ? 5 : currentTimerDurationMinutes * 60}
           onComplete={handleTimerComplete}
           onCancel={handleTimerCancel}
         />
@@ -328,6 +387,15 @@ function App() {
         <HistoryView onClose={handleCloseHistory} isDark={isDark} toggleTheme={toggleTheme} />
       )}
 
+      {view === 'personalization' && (
+        <PersonalizationView
+          isEnabled={isPersonalizationTestingEnabled}
+          onClose={handleClosePersonalization}
+          isDark={isDark}
+          toggleTheme={toggleTheme}
+        />
+      )}
+
       {achievementQueue.length > 0 && (
         <AchievementCelebration
           achievement={achievementQueue[0]}
@@ -340,6 +408,7 @@ function App() {
         isOpen={isDevToolsOpen}
         isUnlocked={isDevToolsUnlocked}
         isDevMode={isDevMode}
+        isPersonalizationTestingEnabled={isPersonalizationTestingEnabled}
         passwordValue={devToolsPassword}
         passwordError={devToolsError}
         isDemoProgressEnabled={isDemoProgressEnabled}
@@ -347,6 +416,11 @@ function App() {
         onPasswordSubmit={handleDevToolsPasswordSubmit}
         onClose={handleCloseDevTools}
         onToggleDevMode={() => setIsDevMode(!isDevMode)}
+        onTogglePersonalizationTesting={() => {
+          const nextEnabled = !isPersonalizationTestingEnabled;
+          setPersonalizationTestingEnabled(nextEnabled);
+          setIsPersonalizationTestingEnabledState(nextEnabled);
+        }}
         onLoadDemoProgress={handleLoadDemoProgress}
         onClearDemoProgress={handleClearDemoProgress}
         onScanAchievements={handleScanAchievements}

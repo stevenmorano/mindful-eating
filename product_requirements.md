@@ -23,6 +23,7 @@ STOP! DON'T EAT! is a mobile-first web application designed to help users manage
     7.  **Mindful Snack Unlock:** If they are still hungry after the second completed pause, the app offers a random healthy snack suggestion.
     8.  **Gamification & Logging:** Decisions are saved to local storage. A gamified Dashboard features a Day Streak (with reduced-motion-aware confetti celebrations), a 28-day Craving Heatmap, actionable metrics (Money Saved, Danger Hour), category insights, and 61 unlockable achievements in a Trophy Case. Achievement popups queue sequentially when multiple achievements unlock.
     9.  **Emergency Breathing:** A dedicated emergency action bypasses activity selection and immediately starts guided box breathing for intense cravings.
+    10. **Personal Pause Toolkit (Phase One QA):** A local Private Tools unlock now exposes the planned personalization experience for testing: custom activities, hidden and favorite preferences, activity weighting, per-activity defaults, and bounded timer presets. This is not a payment entitlement and does not yet include accounts, checkout, sync, or server-side security.
 *   **Catalog:**
     *   Active distraction categories contain 50 built-in activities each.
     *   Quick & Healthy contains 50 mindful snack recommendations.
@@ -48,6 +49,7 @@ STOP! DON'T EAT! is a mobile-first web application designed to help users manage
 *   **Personalization Upgrades:** Future optional paid features can focus on user control rather than withholding help. Candidates include custom activities, unlimited hiding of unwanted built-in activities or categories, favorites and priority weighting, custom pause lengths, per-custom-activity timer lengths, category-level timer defaults, richer insights, reminders, themes, and optional sync.
 *   **Timer Guardrails:** The default 5-minute pause remains the product's simplest, most approachable path. Flexible presets such as 2, 5, 10, 15, and 20 minutes can be offered as an optional deeper-reset capability; custom activities may carry their own timer length.
 *   **Custom Activities:** Keep the existing custom-activity ideas parked until the personalization experience is designed, including activity creation, editing, hiding, favorite selection, and timer controls.
+*   **Phase One Personalization:** Validate the local Personal Pause Toolkit before selecting a payment provider. The free experience keeps unlimited built-in random activity cycling and the complete pause flow; paid value should come from user control and saved preferences.
 *   **App Icon:** Use the custom dark STOP pause icon as the current PWA/favicon asset.
 
 ## 7. Verified Smoke-Test Coverage
@@ -61,3 +63,4 @@ The latest browser smoke test covered:
 *   Dashboard rendering and raw log expansion.
 *   Theme toggle behavior.
 *   Emergency Breathing timer flow.
+*   Personal Pause Toolkit QA flow: local unlock, custom activity creation, favorites, hidden-category fallback, custom category selection, timer presets, custom defaults, and restored free rerolls.
