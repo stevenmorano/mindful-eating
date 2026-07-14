@@ -35,6 +35,7 @@ This document serves as the central tracking checklist for the "STOP! DON'T EAT!
 - [x] Build custom CSS Craving Heatmap (GitHub-style 28-day contribution graph)
 - [x] Implement dynamic metrics (Danger Hour, Estimated Savings, Top Distraction)
 - [x] Create Trophy Case and logic (Iron Will, Distraction Master, Night Guardian, SOS Survivor)
+- [x] Expand achievement catalog to 61 achievements across core, streak, craving, variety, timing, emergency, snack, savings, and category groups
 - [x] Hide raw text log behind an accordion toggle
 
 ## Phase 6: Codex Migration & Hardening (Completed)
@@ -51,6 +52,7 @@ This document serves as the central tracking checklist for the "STOP! DON'T EAT!
 - [x] Improve iOS standalone safe-area handling for installed web-app usage
 - [x] Add sequential achievement celebration popups
 - [x] Add password-locked private QA tools for demo progress and timer testing
+- [x] Add private QA controls for sample progress, achievement scans, seen-unlock resets, popup replay, and the five-second timer shortcut
 
 ## Phase 7: Category-Aware Pause Selection (Completed)
 - [x] Preserve the large home screen random action

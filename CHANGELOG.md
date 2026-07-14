@@ -14,6 +14,8 @@
 ## 2026-07-08 - Category-Aware Pause Selection
 
 ### Added
+* Added a 61-achievement Trophy Case covering pause totals, streaks, craving wins, category variety and wins, time-of-day patterns, Emergency Breathing, mindful snacks, savings, and category milestones.
+* Added private QA controls for five-second timers, sample progress, achievement scans, seen-unlock resets, and popup-only replay demos.
 * Restored the large home screen "DON'T EAT" random-start action.
 * Added compact category chips to the activity suggestion screen.
 * Added category-aware activity selection so re-rolls stay inside the selected category.

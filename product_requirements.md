@@ -21,7 +21,7 @@ STOP! DON'T EAT! is a mobile-first web application designed to help users manage
     5.  **Decision:** Once the timer ends, the user is asked: "Are you still hungry?"
     6.  **Extension:** If they are still hungry after the first pause, they must complete one more 5-minute task before being offered a "Mindful Snack". The second pause respects the selected category when applicable.
     7.  **Mindful Snack Unlock:** If they are still hungry after the second completed pause, the app offers a random healthy snack suggestion.
-    8.  **Gamification & Logging:** Decisions are saved to local storage. A gamified Dashboard features a Day Streak (with reduced-motion-aware confetti celebrations), a 28-day Craving Heatmap, actionable metrics (Money Saved, Danger Hour), and unlockable badges in a Trophy Case.
+    8.  **Gamification & Logging:** Decisions are saved to local storage. A gamified Dashboard features a Day Streak (with reduced-motion-aware confetti celebrations), a 28-day Craving Heatmap, actionable metrics (Money Saved, Danger Hour), category insights, and 61 unlockable achievements in a Trophy Case. Achievement popups queue sequentially when multiple achievements unlock.
     9.  **Emergency Breathing:** A dedicated emergency action bypasses activity selection and immediately starts guided box breathing for intense cravings.
 *   **Catalog:**
     *   Active distraction categories contain 50 built-in activities each.
@@ -30,7 +30,7 @@ STOP! DON'T EAT! is a mobile-first web application designed to help users manage
 
 ## 5. Quality & Accessibility Requirements
 *   The app must pass `npm run lint` and `npm run build` before release.
-*   The app must support rapid manual QA through Dev Mode.
+*   The app must support rapid manual QA through the password-locked Private Tools panel: five-second timer mode, sample progress load/clear, achievement scanning, seen-unlock reset, and a popup-only achievement demo.
 *   Timer, theme toggle, raw log accordion, and icon-only controls must expose accessible labels or state.
 *   The app should respect reduced-motion preferences for celebratory effects.
 *   Malformed local storage data must not crash the app.
@@ -53,6 +53,8 @@ STOP! DON'T EAT! is a mobile-first web application designed to help users manage
 ## 7. Verified Smoke-Test Coverage
 The latest browser smoke test covered:
 *   Dev Mode timer shortening.
+*   Private Tools unlock and controls for timer mode, sample progress, achievement scans, seen-unlock resets, and popup replay.
+*   Achievement catalog rendering and sequential celebration popups across all achievement groups.
 *   Normal craving flow through the first pause.
 *   Enforced second-pause requirement before snack unlock.
 *   Session logging for both pause rounds.

@@ -17,7 +17,7 @@ If you spend just 5 minutes engaged in a different activity, the immediate urge 
 *   **Gamified Stats Dashboard:**
     *   **Day Streaks:** Tracks consecutive days of successfully passing cravings.
     *   **Craving Heatmap:** A GitHub-style 28-day contribution graph showing daily outcomes.
-    *   **Trophy Case:** Unlockable achievements like "Iron Will" and "Night Guardian".
+    *   **Trophy Case:** 61 unlockable achievements across core pauses, streaks, craving wins, variety, timing, Emergency Breathing, mindful snacks, savings, and category-specific progress.
     *   **Achievement Popups:** Big celebratory unlock cards appear one after another when new achievements are earned.
     *   **Category Insights:** Shows category variety, strongest category, and top category pass rates.
     *   **Estimated Savings:** Calculates money saved by not buying junk food or eating out.
@@ -25,8 +25,7 @@ If you spend just 5 minutes engaged in a different activity, the immediate urge 
 *   **Accessibility Pass:** Theme toggles, timers, dashboard accordion controls, and decorative SVGs include improved screen-reader semantics.
 *   **PWA Branding:** App shell and manifest use a custom dark STOP pause icon instead of Vite starter assets.
 *   **iOS Standalone Layout Support:** The app shell accounts for iPhone safe areas and standalone web-app viewport behavior.
-*   **Dev Mode:** A local storage toggle speeds up 5-minute timers to 5 seconds for rapid UI/UX testing.
-*   **Private QA Tools:** A password-locked panel hides the timer shortcut and adds sample-progress controls for testing achievement popups and dashboard states.
+*   **Dev Mode & Private QA Tools:** A password-locked panel provides the five-second timer shortcut, loads or clears sample dashboard progress, scans for newly unlocked achievements, resets seen-unlock state, and replays a scripted achievement popup sequence without changing real data.
 
 ## Product Direction
 
@@ -59,7 +58,7 @@ Potential optional upgrades include custom activities, expanded hiding and favor
 
 ## Development Notes
 
-*   Enable **Dev Mode** from the home screen to shorten timers to 5 seconds.
+*   Unlock **Private Tools** from the home screen to enable the five-second Dev Mode timer, load sample progress, inspect achievement behavior, or replay popup demos.
 *   Session data is stored in `localStorage` under `mindful_eating_sessions`.
 *   New sessions include `activityCategory` for future category-level stats and history features.
 *   Custom activity storage still uses `localStorage` under `mm-custom-activities`, but custom activity UI is intentionally not active yet.
@@ -76,4 +75,4 @@ npm run lint
 npm run build
 ```
 
-The latest smoke test also verified the mobile Dev Mode flow, enforced second pause, mindful snack unlock, dashboard/raw log, theme toggle, and SOS path.
+The latest smoke test also verified the mobile Dev Mode flow, enforced second pause, mindful snack unlock, dashboard/raw log, theme toggle, and Emergency Breathing path.
